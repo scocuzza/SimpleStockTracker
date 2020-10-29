@@ -7,3 +7,4 @@
 - As a User, I would like to be able to edit/update a stock from the home page
 - As a User, I would like to be able to create a watchlist of stocks
 - As a User, I would like to be able to persist my watchlist after refreshing/exiting
+- As a User, I would like to be able to log in to view my parrticular watchlist
