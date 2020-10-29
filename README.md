@@ -1,4 +1,5 @@
 # Simple Stock Tracker
+## Hosted App
 ## User Stories
 - As a User, I would like to be able to add a new stock to my dashboard
 - As a User, I would like to be able to view details of a stock
@@ -8,3 +9,13 @@
 - As a User, I would like to be able to create a watchlist of stocks
 - As a User, I would like to be able to persist my watchlist after refreshing/exiting
 - As a User, I would like to be able to log in to view my parrticular watchlist
+## Technologies Used
+## Wireframe
+
+## Models
+- User
+- Stock
+- Watchlist
+
+Concerns
+How to allow unique users to create their own watchlist

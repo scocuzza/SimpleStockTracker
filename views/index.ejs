@@ -1,0 +1,33 @@
+<h1>Stock Dashboard</h1>
+<table>
+    <tr>
+        <th>
+            Symbol
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            lastPrice
+        </th>
+        <th>
+            Net Change
+        </th>
+    </tr>
+    <% for(let i = 0; i < stocks.length; i++)  {%> 
+        <tr>
+            <td>
+                <%= stocks[i].symbol %> 
+            </td>
+            <td>
+                <%= stocks[i].description %> 
+            </td>
+            <td>
+                <%= stocks[i].lastPrice %> 
+            </td>
+            <td>
+                <%= stocks[i].netChange %> 
+            </td>
+        </tr>
+    <% } %> 
+    </table>
