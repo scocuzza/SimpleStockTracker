@@ -14,7 +14,7 @@
 ## Technologies Used
 ## Wireframe
 ![Image of WireFrame]
-()
+(https://docs.google.com/drawings/d/1CVQ_SaS2Rboyzgl6m3V_NxA9GcX2dsIF3JcBa80rZ1I/edit?usp=sharing)
 ## Models
 - User
 - Stock
