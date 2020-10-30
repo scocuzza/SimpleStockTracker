@@ -1,0 +1,5 @@
+<form action="/stocks/<%= stock._id %>?_method=PUT" method="POST">
+    <label for="title">Enter New Symbol</label>
+    <input type="text" name="symbol" id="symbol" value="<%= stock.symbol%>">
+    <input type="submit" value="Submit">
+</form>
