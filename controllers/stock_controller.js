@@ -21,11 +21,16 @@ router.get('/:id', async (req, res)=>{
         })
     })
 })
-
 router.post('/', async (req,res)=>{
     let stockData = await getStockData(req.body.symbol)
     await insertStockData(req.body.symbol, stockData)
     res.redirect('/stocks')
+})
+
+router.delete('/:id', (req, res)=>{
+    Stock.findByIdAndRemove(req.params.id, (error, stockFound)=> {
+        res.redirect('/stocks')
+    })
 })
 
 async function getStockData(inputSymbol) {

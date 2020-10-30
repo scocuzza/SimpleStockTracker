@@ -95,5 +95,8 @@
             RegularMarketNetChange: <%= stock.regularMarketNetChange %>
         </td>
     </tr>
+    <form action="/stocks/<%=stock._id%>?_method=DELETE" method="POST">
+        <button>Delete</button>
+    </form>
 </table>
 

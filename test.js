@@ -38,12 +38,14 @@ const symbols = ['TSLA','AAPL','GOOGL','MSFT']
 Stock.find({}, (err, data) => {
     let symbolsArray = []
     data.forEach(element=> {
+        console.log(element);
         symbolsArray.push(element.symbol)
-        console.log(element._id);
-    })
-    console.log(symbolsArray);
-})
+        Stock.findByIdAndUpdate(element._id, element, error => {
 
+            console.log("updated")
+        }) 
+    })
+})
 
 
 mongoose.connect(
