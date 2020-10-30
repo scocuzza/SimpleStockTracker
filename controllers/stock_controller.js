@@ -3,6 +3,8 @@ const router = require('express').Router();
 const axios = require('axios')
 const Stock = require('../models/stock');
 
+
+//INDEX
 router.get('/', async (req, res) => {
   let stocks = await Stock.find({});
   res.render('index.ejs', {
@@ -10,10 +12,12 @@ router.get('/', async (req, res) => {
     });
 });
 
+//NEW
 router.get('/new', async (req, res) => {
     res.render('new.ejs');
   });
 
+//SHOW
 router.get('/:id', async (req, res)=>{
     await Stock.findById(req.params.id, (error, stockFound)=>{
         res.render('show.ejs', {
@@ -21,6 +25,8 @@ router.get('/:id', async (req, res)=>{
         })
     })
 })
+
+//CREATE 
 router.post('/', async (req,res)=>{
     let newData = await getStockData(req.body.symbol)
     let newStock = await createStock(newData, req.body.symbol)
@@ -32,17 +38,21 @@ router.post('/', async (req,res)=>{
     res.redirect('/stocks')
 })
 
+//DELETE
 router.delete('/:id', async (req, res)=>{
     await Stock.findByIdAndRemove(req.params.id, (error, stockFound)=> {
         res.redirect('/stocks')
     })
 })
 
+//EDIT
 router.get('/:id/edit', async (req,res)=> {
     await Stock.findById(req.params.id, (error, stockFound)=>{
         res.render('edit.ejs', {stock: stockFound})
     })
 })
+
+//UPDATE
 router.put('/:id', async (req,res)=> {
     let newSymbol = req.body.symbol
     let newData = await getStockData(newSymbol)

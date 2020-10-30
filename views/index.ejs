@@ -8,10 +8,16 @@
             Description
         </th>
         <th>
+            openPrice
+        </th>
+        <th>
             lastPrice
         </th>
         <th>
             Net Change
+        </th>
+        <th>
+            Percent Change
         </th>
     </tr>
     <% for(let i = 0; i < stocks.length; i++)  {%> 
@@ -25,10 +31,17 @@
                 <%= stocks[i].description %> 
             </td>
             <td>
-                <%= stocks[i].lastPrice %> 
+                $<%= stocks[i].openPrice %>
+            </td>
+            <td>
+                $<%= stocks[i].lastPrice %> 
             </td>
             <td>
                 <%= stocks[i].netChange %> 
+            </td>
+            <td>
+                <% percentChange = ((stocks[i].netChange / stocks[i].openPrice) * 100) %>
+                <%= parseFloat(percentChange).toFixed(2) %>%
             </td>
             <td>
                 <form action="/stocks/<%=stocks[i]._id%>?_method=DELETE" method="POST">
