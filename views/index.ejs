@@ -17,7 +17,9 @@
     <% for(let i = 0; i < stocks.length; i++)  {%> 
         <tr>
             <td>
-                <%= stocks[i].symbol %> 
+                <a href="/stocks/<%=stocks[i]._id%>"> 
+                    <%= stocks[i].symbol %> 
+                </a>
             </td>
             <td>
                 <%= stocks[i].description %> 
