@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
-const Schema = mongoose.Schema
-const stockSchema = Schema({
+const stockSchema = new mongoose.Schema({
     assetType: {type: String},
     assetMainType: {type: String},
     cusip: {type: String},
@@ -50,5 +49,7 @@ const stockSchema = Schema({
     regularMarketPercentChangeInDouble: {type: String},
     delayed: {type: String},
 }, {timestamps: true})
+
 const Stock = mongoose.model('Stock', stockSchema)
+
 module.exports = Stock

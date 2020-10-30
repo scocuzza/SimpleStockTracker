@@ -3,7 +3,6 @@ const quoteUrl = 'https://api.tdameritrade.com/v1/marketdata/quotes'
 const apikey = 'TMIF9RATR89WC6J6BDOSA1PYQS7KKUBT'
 const mongoose = require('mongoose');
 const Stock = require('./models/stock');
-let responseObject = {}
 const mongoURI = 'mongodb://localhost/simple-stock-tracker-app';
 const symbols = ['TSLA','AAPL','GOOGL','MSFT']
 
@@ -33,6 +32,7 @@ async function getAndSeedData(config) {
 }
 
 function seedDatabase(data) {
+
     symbols.forEach( element => {
         const stock = new Stock({
             assetType: data[element].assetType,
