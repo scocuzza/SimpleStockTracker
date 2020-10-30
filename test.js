@@ -13,8 +13,9 @@ const symbols = ['TSLA','AAPL','GOOGL','MSFT']
 //     let stockData = await getStockData(symbols)
 //     console.log(stockData);
 // }
-
-refreshData()
+setInterval(function(){ 
+        refreshData();
+    }, 3000);
 
 async function refreshData() {
     let stockArray = await getCurrentSymbols();
