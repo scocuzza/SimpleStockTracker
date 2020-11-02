@@ -3,6 +3,7 @@
 //Dependencies
 //___________________
 const express = require('express');
+const axios = require('axios')
 const expressLayouts = require('express-ejs-layouts')
 const methodOverride  = require('method-override');
 const mongoose = require ('mongoose');
@@ -48,7 +49,8 @@ app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 
 // Controllers
 app.set('view engine', 'ejs');
-const stockController = require('./controllers/stock_controller.js')
+const stockController = require('./controllers/stock_controller.js');
+const Stock = require('./models/stock.js');
 app.use('/stocks', stockController)
 
 //___________________
@@ -61,6 +63,7 @@ app.use('/stocks', stockController)
 //___________________
 //Listener
 //___________________
+
 
 async function refreshData() {
     let stockArray = await getCurrentSymbols();
@@ -149,19 +152,20 @@ async function updateStockData(stockArray, newStock) {
             regularMarketPercentChangeInDouble: newStock[stock].regularMarketPercentChangeInDouble,
             delayed: newStock[stock].delayed
         }, (err) => {
-            console.log('Update Complete');
+            console.log('Update Complete ' + stock);
         })
         })
 }
 
 io.on('connection', function(socket) {
     console.log('A user connected');
- 
-    //Send a message after a timeout of 4seconds
-    setTimeout(function() {
-       console.log('HELLO');
-    }, 4000);
- 
+
+    setInterval( async()=>{
+        await refreshData();
+        let stocks = await Stock.find({})
+        socket.emit('testEvent', {stocks})
+    },5000)
+
     socket.on('disconnect', function () {
        console.log('A user disconnected');
     });

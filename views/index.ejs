@@ -1,7 +1,20 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     var socket = io();
-    socket.on('message', function(data){document.write(data)});
+    socket.on('testEvent', function(stocks){
+       let data = stocks.stocks
+       data.forEach(stock => {
+           let openPrice = document.querySelector('.' + stock.symbol + ' .openPrice')
+           let lastPrice = document.querySelector('.' + stock.symbol + ' .lastPrice')
+           let netChange = document.querySelector('.' + stock.symbol + ' .netChange')
+           let percentChange = document.querySelector('.' + stock.symbol + ' .percentChange')
+           openPrice.innerHTML = '$' + parseFloat(stock.openPrice).toFixed(2)
+           lastPrice.innerHTML = '$' + parseFloat(stock.lastPrice).toFixed(2)
+           netChange.innerHTML = parseFloat(stock.netChange).toFixed(2)
+           let percentChangeCalc = ((stock.netChange / stock.openPrice) * 100)
+           percentChange.innerHTML = parseFloat(percentChangeCalc).toFixed(2) + '%'
+       });
+    });
  </script>
 <h1>Stock Dashboard</h1>
 <table>
@@ -26,29 +39,28 @@
         </th>
     </tr>
     <% for(let i = 0; i < stocks.length; i++)  {%> 
-        <tr>
-            <td>
-                <a href="/stocks/<%=stocks[i]._id%>"> 
+        <tr class="<%= stocks[i].symbol %>">
+            <td class="symbol">
                     <%= stocks[i].symbol %> 
                 </a>
             </td>
-            <td>
+            <td class="description">
                 <%= stocks[i].description %> 
+            </td >
+            <td class="openPrice">
+                $<%= parseFloat(stocks[i].openPrice).toFixed(2) %>
             </td>
-            <td>
-                $<%= stocks[i].openPrice %>
+            <td class="lastPrice">
+                $<%= parseFloat(stocks[i].lastPrice).toFixed(2) %> 
             </td>
-            <td>
-                $<%= stocks[i].lastPrice %> 
+            <td class="netChange">
+                <%= parseFloat(stocks[i].netChange).toFixed(2) %> 
             </td>
-            <td>
-                <%= stocks[i].netChange %> 
-            </td>
-            <td>
+            <td class="percentChange">
                 <% percentChange = ((stocks[i].netChange / stocks[i].openPrice) * 100) %>
                 <%= parseFloat(percentChange).toFixed(2) %>%
             </td>
-            <td>
+            <td class="delete">
                 <form action="/stocks/<%=stocks[i]._id%>?_method=DELETE" method="POST">
                     <button>Delete</button>
                 </form>
