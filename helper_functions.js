@@ -8,9 +8,9 @@ async function refresh() {
 async function refreshData() {
     let stockArray = await getCurrentSymbols();
     let newStockData = await getStockData(stockArray.join(','))
-    await updateStockData(stockArray, newStockData)
+    //await updateStockData(stockArray, newStockData)
 }
-async function getCurrentSymbols() {
+ async function getCurrentSymbols() {
     let stockArray = []
     await Stock.find({}, (err, data) => {
         data.forEach(element=> {
@@ -20,6 +20,7 @@ async function getCurrentSymbols() {
     return stockArray
 }
 async function getStockData(symbols) {
+    console.log('Starting API call');
     let config = {
         method: 'GET',
         url: 'https://api.tdameritrade.com/v1/marketdata/quotes',
@@ -30,10 +31,11 @@ async function getStockData(symbols) {
         headers: { }
       };
     await axios(config)
-    .then(function (response) {
+    .then(async function (response) {
         data = response.data
+        console.log('API call complete');
     })
-    .catch(function (error) {
+    .catch(async function (error) {
         console.log(error);
     })
     return data

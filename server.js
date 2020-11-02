@@ -12,7 +12,7 @@ const db = mongoose.connection;
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
 const Stock = require('./models/stock.js');
-let tools = require('./helper_functions')
+let helper = require('./helper_functions')
 
 //___________________
 //Port
@@ -66,10 +66,10 @@ app.use('/watchlists', watchlistController)
 //___________________
 
 //On the server refresh the stock items in the DB
-// functions located in tools.js
-// setInterval( async()=>{
-//     await tools.refresh();
-// }, 5000)
+//functions located in tools.js
+setInterval(()=>{
+    helper.refresh();
+}, 5000)
 
 // Socket Connection
 // Upon user connection emit a testEvent on an interval which retrieves latest values from DB

@@ -29,7 +29,6 @@ router.post('/:id/stocks', async (req, res)=> {
     Stock.create(newStock)
     let currentWatchlist = await WatchList.findById(req.params.id)
     currentWatchlist.stocks.push(newStock)
-    console.log(currentWatchlist);
     currentWatchlist.save(function (err, watchlist) {
         if (err) {
           console.log(err);
@@ -48,7 +47,6 @@ router.delete('/:id', async (req, res)=> {
 //SHOW
 router.get('/:id', async (req, res)=>{
     let watchlist = await WatchList.findById(req.params.id).populate('stocks')
-    console.log(watchlist);
     res.render('./watchlist/show.ejs', {watchlist})
 })
 
