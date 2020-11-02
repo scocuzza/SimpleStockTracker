@@ -1,0 +1,13 @@
+<h1>WatchLists</h1>
+<ul>
+    <% for(let i = 0; i < watchlists.length; i++) { %> 
+    <li>
+        <a href="/watchlists/<%= watchlists[i]._id %>">
+            <%= watchlists[i].name %>
+        </a>
+        <form action="/watchlists/<%=watchlists[i]._id%>?_method=DELETE" method="POST">
+            <button>Delete</button>
+        </form>
+    </li>
+    <% } %> 
+</ul>

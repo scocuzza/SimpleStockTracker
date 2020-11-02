@@ -1,0 +1,45 @@
+<h1><%= watchlist.name%></h1>
+<table>
+    <tr>
+        <th>
+            Symbol
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            openPrice
+        </th>
+        <th>
+            lastPrice
+        </th>
+        <th>
+            Net Change
+        </th>
+        <th>
+            Percent Change
+        </th>
+    </tr>
+    <% watchlist.stocks.forEach(stock => { %>
+        <tr class="<%= stock.symbol %>">
+            <td class="symbol"><%= stock.symbol %> </td>
+            <td class="description"><%= stock.description %> </td>
+            <td class="openPrice">$<%= parseFloat(stock.openPrice).toFixed(2) %> </td>
+            <td class="lastPrice">$<%= parseFloat(stock.lastPrice).toFixed(2) %> </td>
+            <td class="netChange"><%= parseFloat(stock.netChange).toFixed(2) %> </td>
+            <td class="percentChange">
+                    <% let percentChange = ((stock.netChange / stock.openPrice) * 100) %>
+                    <%= parseFloat(percentChange).toFixed(2) %>%
+            </td>
+            <td class="delete">
+                <form action="/stocks/<%=stock._id%>?_method=DELETE" method="POST">
+                    <button>Delete</button>
+                </form>
+            </td>
+            <td>
+                <a href="/stocks/<%=stock._id%>/edit">Edit</a>
+            </td>
+        </tr>
+    <% }); %> 
+    </table>
+   

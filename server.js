@@ -11,6 +11,8 @@ const app = express()
 const db = mongoose.connection;
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
+const Stock = require('./models/stock.js');
+let tools = require('./tools')
 
 //___________________
 //Port
@@ -50,121 +52,27 @@ app.use(methodOverride('_method'));// allow POST, PUT and DELETE from a form
 // Controllers
 app.set('view engine', 'ejs');
 const stockController = require('./controllers/stock_controller.js');
-const Stock = require('./models/stock.js');
 app.use('/stocks', stockController)
+
+const watchlistController = require('./controllers/watchlist_controller.js')
+app.use('/watchlists', watchlistController)
 
 //___________________
 // Routes
 //___________________
-//localhost:3000
-// app.get('/' , (req, res) => {
-//   res.send('Hello World!');
-// });
+
 //___________________
 //Listener
 //___________________
 
+//On the server refresh the stock items in the DB
+// functions located in tools.js
+// setInterval( async()=>{
+//     await tools.refresh();
+// }, 5000)
 
-async function refreshData() {
-    let stockArray = await getCurrentSymbols();
-    let newStockData = await getStockData(stockArray)
-    await updateStockData(stockArray, newStockData)
-}
-
-async function getCurrentSymbols() {
-    let stockArray = []
-    await Stock.find({}, (err, data) => {
-        data.forEach(element=> {
-            stockArray.push(element.symbol)
-        })
-    })
-    return stockArray
-}
-
-async function getStockData(symbols) {
-    let config = {
-        method: 'GET',
-        url: 'https://api.tdameritrade.com/v1/marketdata/quotes',
-        params: {
-            apikey: 'TMIF9RATR89WC6J6BDOSA1PYQS7KKUBT',
-            symbol: symbols.join(',')
-        },
-        headers: { }
-      };
-    await axios(config)
-    .then(function (response) {
-        data = response.data
-    })
-    .catch(function (error) {
-        console.log(error);
-    })
-    return data
-}
-async function updateStockData(stockArray, newStock) {
-    await stockArray.forEach( async stock => {
-        await Stock.updateOne({symbol: stock}, 
-            {
-            assetType: newStock[stock].assetType,
-            assetMainType: newStock[stock].assetMainType,
-            cusip: newStock[stock].cusip,
-            symbol: newStock[stock].symbol,
-            description: newStock[stock].description,
-            bidPrice: newStock[stock].bidPrice,
-            bidSize: newStock[stock].bidSize,
-            bidId: newStock[stock].bidId,
-            askPrice: newStock[stock].askPrice,
-            askSize: newStock[stock].askSize,
-            askId: newStock[stock].askId,
-            lastPrice: newStock[stock].lastPrice,
-            lastSize: newStock[stock].lastSize,
-            lastId: newStock[stock].lastId,
-            openPrice: newStock[stock].openPrice,
-            highPrice: newStock[stock].highPrice,
-            lowPrice: newStock[stock].lowPrice,
-            bidTick: newStock[stock].bidTick,
-            closePrice: newStock[stock].closePrice,
-            netChange: newStock[stock].netChange,
-            totalVolume: newStock[stock].totalVolume,
-            quoteTimeInLong: newStock[stock].quoteTimeInLong,
-            tradeTimeInLong: newStock[stock].tradeTimeInLong,
-            mark: newStock[stock].mark,
-            exchange: newStock[stock].exchange,
-            exchangeName: newStock[stock].exchangeName,
-            marginable: newStock[stock].marginable,
-            shortable: newStock[stock].shortable,
-            volatility: newStock[stock].volatility,
-            digits: newStock[stock].digits,
-            yearHigh: newStock[stock]['52WkHigh'],
-            yearLow: newStock[stock]['52WkLow'],
-            nAV: newStock[stock].nAV,
-            peRatio: newStock[stock].peRatio,
-            divAmount: newStock[stock].divAmount,
-            divYield: newStock[stock].divYield,
-            divDate: newStock[stock].divDate,
-            securityStatus: newStock[stock].securityStatus,
-            regularMarketLastPrice: newStock[stock].regularMarketLastPrice,
-            regularMarketLastSize: newStock[stock].regularMarketLastSize,
-            regularMarketNetChange: newStock[stock].regularMarketNetChange,
-            regularMarketTradeTimeInLong: newStock[stock].regularMarketTradeTimeInLong,
-            netPercentChangeInDouble: newStock[stock].netPercentChangeInDouble,
-            markChangeInDouble: newStock[stock].markChangeInDouble,
-            markPercentChangeInDouble: newStock[stock].markPercentChangeInDouble,
-            regularMarketPercentChangeInDouble: newStock[stock].regularMarketPercentChangeInDouble,
-            delayed: newStock[stock].delayed
-        }, (err) => {
-            console.log('Update Complete ' + stock);
-        })
-        })
-}
-
-setInterval(()=>{
-    refresh()
-}, 5000)
-async function refresh() {
-    await refreshData();
-}
-
-
+// Socket Connection
+// Upon user connection emit a testEvent on an interval which retrieves latest values from DB
 io.on('connection', function(socket) {
     console.log('A user connected');
 
