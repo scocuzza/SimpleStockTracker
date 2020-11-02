@@ -1,3 +1,8 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io();
+    socket.on('message', function(data){document.write(data)});
+ </script>
 <h1>Stock Dashboard</h1>
 <table>
     <tr>
@@ -52,5 +57,7 @@
                 <a href="/stocks/<%=stocks[i]._id%>/edit">Edit</a>
             </td>
         </tr>
-    <% } %> 
+    <% } %>
     </table>
+   
+
