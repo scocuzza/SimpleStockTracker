@@ -12,7 +12,7 @@ const db = mongoose.connection;
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
 const Stock = require('./models/stock.js');
-let tools = require('./tools')
+let tools = require('./helper_functions')
 
 //___________________
 //Port

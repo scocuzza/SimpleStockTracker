@@ -2,6 +2,7 @@
 const router = require('express').Router();
 const axios = require('axios');
 const Stock = require('../models/stock');
+const helper = require('../helper_functions.js')
 
 //INDEX
 router.get('/', async (req, res) => {
@@ -27,8 +28,8 @@ router.get('/:id', async (req, res)=>{
 
 //CREATE 
 router.post('/', async (req,res)=>{
-    let newData = await getStockData(req.body.symbol)
-    let newStock = await createStock(newData, req.body.symbol)
+    let newData = await helper.getStockData(req.body.symbol)
+    let newStock = await helper.createStock(newData, req.body.symbol)
     newStock.save(function (err, stock) {
         if (err) {
           console.log(err);
@@ -54,8 +55,8 @@ router.get('/:id/edit', async (req,res)=> {
 //UPDATE
 router.put('/:id', async (req,res)=> {
     let newSymbol = req.body.symbol
-    let newData = await getStockData(newSymbol)
-    let newStock = await createStock(newData, newSymbol)
+    let newData = await helper.getStockData(newSymbol)
+    let newStock = await helper.createStock(newData, newSymbol)
     await Stock.findByIdAndUpdate(req.params.id, 
         {
             assetType: newStock.assetType,
@@ -109,75 +110,4 @@ router.put('/:id', async (req,res)=> {
         res.redirect('/stocks')
     }  )
 })
-async function getStockData(symbols) {
-    let config = {
-        method: 'GET',
-        url: 'https://api.tdameritrade.com/v1/marketdata/quotes',
-        params: {
-            apikey: 'TMIF9RATR89WC6J6BDOSA1PYQS7KKUBT',
-            symbol: symbols
-        },
-        headers: { }
-      };
-    await axios(config)
-    .then(function (response) {
-        data = response.data
-    })
-    .catch(function (error) {
-        console.log(error);
-    })
-    return data
-}
-async function createStock(data, element) {
-    element.toUpperCase()
-    return new Stock({
-        assetType: data[element].assetType,
-        assetMainType: data[element].assetMainType,
-        cusip: data[element].cusip,
-        symbol: data[element].symbol,
-        description: data[element].description,
-        bidPrice: data[element].bidPrice,
-        bidSize: data[element].bidSize,
-        bidId: data[element].bidId,
-        askPrice: data[element].askPrice,
-        askSize: data[element].askSize,
-        askId: data[element].askId,
-        lastPrice: data[element].lastPrice,
-        lastSize: data[element].lastSize,
-        lastId: data[element].lastId,
-        openPrice: data[element].openPrice,
-        highPrice: data[element].highPrice,
-        lowPrice: data[element].lowPrice,
-        bidTick: data[element].bidTick,
-        closePrice: data[element].closePrice,
-        netChange: data[element].netChange,
-        totalVolume: data[element].totalVolume,
-        quoteTimeInLong: data[element].quoteTimeInLong,
-        tradeTimeInLong: data[element].tradeTimeInLong,
-        mark: data[element].mark,
-        exchange: data[element].exchange,
-        exchangeName: data[element].exchangeName,
-        marginable: data[element].marginable,
-        shortable: data[element].shortable,
-        volatility: data[element].volatility,
-        digits: data[element].digits,
-        yearHigh: data[element]['52WkHigh'],
-        yearLow: data[element]['52WkLow'],
-        nAV: data[element].nAV,
-        peRatio: data[element].peRatio,
-        divAmount: data[element].divAmount,
-        divYield: data[element].divYield,
-        divDate: data[element].divDate,
-        securityStatus: data[element].securityStatus,
-        regularMarketLastPrice: data[element].regularMarketLastPrice,
-        regularMarketLastSize: data[element].regularMarketLastSize,
-        regularMarketNetChange: data[element].regularMarketNetChange,
-        regularMarketTradeTimeInLong: data[element].regularMarketTradeTimeInLong,
-        netPercentChangeInDouble: data[element].netPercentChangeInDouble,
-        markChangeInDouble: data[element].markChangeInDouble,
-        markPercentChangeInDouble: data[element].markPercentChangeInDouble,
-        regularMarketPercentChangeInDouble: data[element].regularMarketPercentChangeInDouble,
-        delayed: data[element].delayed
-      });
-}
 module.exports = router;

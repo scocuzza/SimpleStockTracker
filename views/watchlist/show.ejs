@@ -1,4 +1,9 @@
 <h1><%= watchlist.name%></h1>
+    <form action="/watchlists/<%= watchlist._id%>/stocks" method="POST">
+        <label for="symbol">Add New Stock</label>
+        <input type="text" name="symbol" id="symbol" placeholder="Enter Ticker Symbol">
+        <button>Submit</button>
+    </form>
 <table>
     <tr>
         <th>
