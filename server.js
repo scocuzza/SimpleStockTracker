@@ -101,8 +101,8 @@ async function getStockData(symbols) {
     return data
 }
 async function updateStockData(stockArray, newStock) {
-    stockArray.forEach( stock=> {
-        Stock.updateOne({symbol: stock}, 
+    await stockArray.forEach( async stock => {
+        await Stock.updateOne({symbol: stock}, 
             {
             assetType: newStock[stock].assetType,
             assetMainType: newStock[stock].assetMainType,
@@ -157,11 +157,18 @@ async function updateStockData(stockArray, newStock) {
         })
 }
 
+setInterval(()=>{
+    refresh()
+}, 5000)
+async function refresh() {
+    await refreshData();
+}
+
+
 io.on('connection', function(socket) {
     console.log('A user connected');
 
     setInterval( async()=>{
-        await refreshData();
         let stocks = await Stock.find({})
         socket.emit('testEvent', {stocks})
     },5000)
