@@ -8,18 +8,18 @@ async function refresh() {
 async function refreshData() {
     let stockArray = await getCurrentSymbols();
     let newStockData = await getStockData(stockArray.join(','))
-    //await updateStockData(stockArray, newStockData)
+    updateStockData(stockArray, newStockData)
 }
- async function getCurrentSymbols() {
+function getCurrentSymbols() {
     let stockArray = []
-    await Stock.find({}, (err, data) => {
+    Stock.find({}, (err, data) => {
         data.forEach(element=> {
             stockArray.push(element.symbol)
         })
     })
     return stockArray
 }
-async function getStockData(symbols) {
+function getStockData(symbols) {
     console.log('Starting API call');
     let config = {
         method: 'GET',
@@ -30,19 +30,19 @@ async function getStockData(symbols) {
         },
         headers: { }
       };
-    await axios(config)
-    .then(async function (response) {
-        data = response.data
+    axios(config)
+    .then( function (response) {
+        let data = response.data
         console.log('API call complete');
+        return data
     })
     .catch(async function (error) {
         console.log(error);
     })
-    return data
 }
-async function updateStockData(stockArray, newStock) {
+function updateStockData(stockArray, newStock) {
     stockArray.forEach( async stock => {
-        await Stock.updateOne({symbol: stock}, 
+        Stock.updateOne({symbol: stock}, 
             {
             assetType: newStock[stock].assetType,
             assetMainType: newStock[stock].assetMainType,
