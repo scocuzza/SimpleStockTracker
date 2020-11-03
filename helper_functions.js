@@ -2,25 +2,27 @@
 const Stock = require('./models/stock')
 const axios = require('axios')
 
+// async function refresh() {
+//     refreshData();
+// }
 async function refresh() {
-    await refreshData();
+    let stockList = await getStockList()
+    console.log(stockList);
+    getStockData(stockList)
 }
-async function refreshData() {
-    let stockArray = await getCurrentSymbols();
-    let newStockData = await getStockData(stockArray.join(','))
-    updateStockData(stockArray, newStockData)
-}
-function getCurrentSymbols() {
-    let stockArray = []
-    Stock.find({}, (err, data) => {
-        data.forEach(element=> {
-            stockArray.push(element.symbol)
+async function getStockList() {
+    let stockList = []
+    await Stock.find({}, (err, data)=>{
+        data.forEach(stock=>{
+            stockList.push(stock.symbol)
         })
     })
-    return stockArray
+    return stockList
 }
 function getStockData(symbols) {
     console.log('Starting API call');
+    let stockList = symbols
+    symbols = stockList.join(',')
     let config = {
         method: 'GET',
         url: 'https://api.tdameritrade.com/v1/marketdata/quotes',
@@ -30,71 +32,69 @@ function getStockData(symbols) {
         },
         headers: { }
       };
-    axios(config)
+    let response = axios(config)
     .then( function (response) {
         let data = response.data
         console.log('API call complete');
-        return data
+        stockList.forEach( async stock => {
+            Stock.updateOne({symbol: stock}, 
+                {
+                assetType: data[stock].assetType,
+                assetMainType: data[stock].assetMainType,
+                cusip: data[stock].cusip,
+                symbol: data[stock].symbol,
+                description: data[stock].description,
+                bidPrice: data[stock].bidPrice,
+                bidSize: data[stock].bidSize,
+                bidId: data[stock].bidId,
+                askPrice: data[stock].askPrice,
+                askSize: data[stock].askSize,
+                askId: data[stock].askId,
+                lastPrice: data[stock].lastPrice,
+                lastSize: data[stock].lastSize,
+                lastId: data[stock].lastId,
+                openPrice: data[stock].openPrice,
+                highPrice: data[stock].highPrice,
+                lowPrice: data[stock].lowPrice,
+                bidTick: data[stock].bidTick,
+                closePrice: data[stock].closePrice,
+                netChange: data[stock].netChange,
+                totalVolume: data[stock].totalVolume,
+                quoteTimeInLong: data[stock].quoteTimeInLong,
+                tradeTimeInLong: data[stock].tradeTimeInLong,
+                mark: data[stock].mark,
+                exchange: data[stock].exchange,
+                exchangeName: data[stock].exchangeName,
+                marginable: data[stock].marginable,
+                shortable: data[stock].shortable,
+                volatility: data[stock].volatility,
+                digits: data[stock].digits,
+                yearHigh: data[stock]['52WkHigh'],
+                yearLow: data[stock]['52WkLow'],
+                nAV: data[stock].nAV,
+                peRatio: data[stock].peRatio,
+                divAmount: data[stock].divAmount,
+                divYield: data[stock].divYield,
+                divDate: data[stock].divDate,
+                securityStatus: data[stock].securityStatus,
+                regularMarketLastPrice: data[stock].regularMarketLastPrice,
+                regularMarketLastSize: data[stock].regularMarketLastSize,
+                regularMarketNetChange: data[stock].regularMarketNetChange,
+                regularMarketTradeTimeInLong: data[stock].regularMarketTradeTimeInLong,
+                netPercentChangeInDouble: data[stock].netPercentChangeInDouble,
+                markChangeInDouble: data[stock].markChangeInDouble,
+                markPercentChangeInDouble: data[stock].markPercentChangeInDouble,
+                regularMarketPercentChangeInDouble: data[stock].regularMarketPercentChangeInDouble,
+                delayed: data[stock].delayed
+            }, (err) => {
+                //console.log('Update Complete ' + stock);
+            })
+            })
     })
-    .catch(async function (error) {
+    .catch( function (error) {
         console.log(error);
     })
-}
-function updateStockData(stockArray, newStock) {
-    stockArray.forEach( async stock => {
-        Stock.updateOne({symbol: stock}, 
-            {
-            assetType: newStock[stock].assetType,
-            assetMainType: newStock[stock].assetMainType,
-            cusip: newStock[stock].cusip,
-            symbol: newStock[stock].symbol,
-            description: newStock[stock].description,
-            bidPrice: newStock[stock].bidPrice,
-            bidSize: newStock[stock].bidSize,
-            bidId: newStock[stock].bidId,
-            askPrice: newStock[stock].askPrice,
-            askSize: newStock[stock].askSize,
-            askId: newStock[stock].askId,
-            lastPrice: newStock[stock].lastPrice,
-            lastSize: newStock[stock].lastSize,
-            lastId: newStock[stock].lastId,
-            openPrice: newStock[stock].openPrice,
-            highPrice: newStock[stock].highPrice,
-            lowPrice: newStock[stock].lowPrice,
-            bidTick: newStock[stock].bidTick,
-            closePrice: newStock[stock].closePrice,
-            netChange: newStock[stock].netChange,
-            totalVolume: newStock[stock].totalVolume,
-            quoteTimeInLong: newStock[stock].quoteTimeInLong,
-            tradeTimeInLong: newStock[stock].tradeTimeInLong,
-            mark: newStock[stock].mark,
-            exchange: newStock[stock].exchange,
-            exchangeName: newStock[stock].exchangeName,
-            marginable: newStock[stock].marginable,
-            shortable: newStock[stock].shortable,
-            volatility: newStock[stock].volatility,
-            digits: newStock[stock].digits,
-            yearHigh: newStock[stock]['52WkHigh'],
-            yearLow: newStock[stock]['52WkLow'],
-            nAV: newStock[stock].nAV,
-            peRatio: newStock[stock].peRatio,
-            divAmount: newStock[stock].divAmount,
-            divYield: newStock[stock].divYield,
-            divDate: newStock[stock].divDate,
-            securityStatus: newStock[stock].securityStatus,
-            regularMarketLastPrice: newStock[stock].regularMarketLastPrice,
-            regularMarketLastSize: newStock[stock].regularMarketLastSize,
-            regularMarketNetChange: newStock[stock].regularMarketNetChange,
-            regularMarketTradeTimeInLong: newStock[stock].regularMarketTradeTimeInLong,
-            netPercentChangeInDouble: newStock[stock].netPercentChangeInDouble,
-            markChangeInDouble: newStock[stock].markChangeInDouble,
-            markPercentChangeInDouble: newStock[stock].markPercentChangeInDouble,
-            regularMarketPercentChangeInDouble: newStock[stock].regularMarketPercentChangeInDouble,
-            delayed: newStock[stock].delayed
-        }, (err) => {
-            //console.log('Update Complete ' + stock);
-        })
-        })
+    return response.data
 }
 async function createStock(data, element) {
     element = element.toUpperCase()

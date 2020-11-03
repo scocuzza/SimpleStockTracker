@@ -67,8 +67,8 @@ app.use('/watchlists', watchlistController)
 
 //On the server refresh the stock items in the DB
 //functions located in tools.js
-setInterval(()=>{
-    helper.refresh();
+setInterval( async()=>{
+    await helper.refresh();
 }, 5000)
 
 // Socket Connection
