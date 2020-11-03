@@ -24,14 +24,23 @@ router.post('/', async (req, res)=>{
 
 //CREATE add stock to watchlist
 router.post('/:id/stocks', async (req, res)=> {
-    let stockData = await helper.getStockData(req.body.symbol)
-    let newStock = await helper.createStock(stockData, req.body.symbol)
-    Stock.create(newStock)
     let currentWatchlist = await WatchList.findById(req.params.id)
-    currentWatchlist.stocks.push(newStock)
+    let stockFoundID =  await Stock.findOne({symbol: req.body.symbol.toUpperCase()})
+    let stockFound =  await Stock.findOne({symbol: req.body.symbol.toUpperCase()}).countDocuments() > 0
+    if(stockFound === false) {
+        let stockData = await helper.getStockData(req.body.symbol)
+        let newStock = await helper.createStock(stockData, req.body.symbol)
+        Stock.create(newStock)
+        currentWatchlist.stocks.push(newStock)
+    } else {
+        if((currentWatchlist.stocks).includes(stockFoundID) === false) {
+            console.log(stockFound);
+            currentWatchlist.stocks.push(stockFoundID)
+        }
+    }
     currentWatchlist.save(function (err, watchlist) {
         if (err) {
-          console.log(err);
+            console.log(err);
         } else {
         }
     })
