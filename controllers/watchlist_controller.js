@@ -25,17 +25,16 @@ router.post('/', async (req, res)=>{
 //CREATE add stock to watchlist
 router.post('/:id/stocks', async (req, res)=> {
     let currentWatchlist = await WatchList.findById(req.params.id)
-    let stockFoundID =  await Stock.findOne({symbol: req.body.symbol.toUpperCase()})
-    let stockFound =  await Stock.findOne({symbol: req.body.symbol.toUpperCase()}).countDocuments() > 0
-    if(stockFound === false) {
+    let stockFound =  await Stock.findOne({symbol: req.body.symbol.toUpperCase()})
+    let isStockFound =  await Stock.findOne({symbol: req.body.symbol.toUpperCase()}).countDocuments() > 0
+    if(!isStockFound) {
         let stockData = await helper.getStockData(req.body.symbol)
         let newStock = await helper.createStock(stockData, req.body.symbol)
         Stock.create(newStock)
         currentWatchlist.stocks.push(newStock)
     } else {
-        if((currentWatchlist.stocks).includes(stockFoundID) === false) {
-            console.log(stockFound);
-            currentWatchlist.stocks.push(stockFoundID)
+        if((currentWatchlist.stocks).includes(stockFound._id) === false) {
+            currentWatchlist.stocks.push(stockFound)
         }
     }
     currentWatchlist.save(function (err, watchlist) {
@@ -51,6 +50,19 @@ router.post('/:id/stocks', async (req, res)=> {
 router.delete('/:id', async (req, res)=> {
     await WatchList.findByIdAndDelete(req.params.id)
     res.redirect('/watchlists')
+})
+//DELETE
+router.delete('/:watchlistid/stocks/:stockid', async (req, res)=> {
+    let stockID = req.params.stockid 
+    let watchlist = await WatchList.findById(req.params.watchlistid)
+    watchlist.stocks.remove(stockID)
+    watchlist.save(function (err, watchlist) {
+        if (err) {
+            console.log(err);
+        } else {
+        }
+    })
+    res.redirect('/watchlists/'+req.params.watchlistid)
 })
 
 //SHOW
