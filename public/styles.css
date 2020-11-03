@@ -1,13 +1,17 @@
+body {
+    font-family: 'Indie Flower', cursive;
+}
 .ul-nav {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: rgba(82, 168, 93);
   }
   
   .li-nav {
     float: left;
+
   }
   
   .li-nav a {
@@ -16,12 +20,23 @@
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    font-size: 20px;
+
   }
   
   /* Change the link color to #111 (black) on hover */
 .li-nav a:hover {
-    background-color: #111;
+    background-color: rgba(82, 168, 93);
   }
   .active {
     background-color: #4CAF50;
   }
+table {
+    font-size: 20px;
+}
+  th, td{
+    border-bottom: 1px solid #ddd;
+    border-radius: 10px;
+    text-align: center;
+  }
+ 
