@@ -6,14 +6,9 @@ async function refresh() {
     await refreshData();
 }
 async function refreshData() {
-    try {
-        let stockArray = await getCurrentSymbols();
-        let newStockData = await getStockData(stockArray.join(','))
-        await updateStockData(stockArray, newStockData)
-    } catch(ex){
-        console.log('ERROR ' + ex);
-    }
-    
+    let stockArray = await getCurrentSymbols();
+    let newStockData = await getStockData(stockArray.join(','))
+    await updateStockData(stockArray, newStockData)
 }
  async function getCurrentSymbols() {
     let stockArray = []
@@ -46,6 +41,7 @@ async function getStockData(symbols) {
     return data
 }
 async function updateStockData(stockArray, newStock) {
+    console.log('Updating DB...');
     stockArray.forEach( async stock => {
         await Stock.updateOne({symbol: stock}, 
             {

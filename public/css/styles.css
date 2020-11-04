@@ -4,7 +4,10 @@ body {
     color: white;
     font-size: 25px;
 }
-
+h1, h2 {
+  margin-bottom: 0px;
+  margin-top: 5px;
+}
 a {
   color: white;
 }

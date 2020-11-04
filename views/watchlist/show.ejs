@@ -32,7 +32,7 @@
             <td class="openPrice">$<%= parseFloat(stock.openPrice).toFixed(2) %> </td>
             <td class="lastPrice">$<%= parseFloat(stock.lastPrice).toFixed(2) %> </td>
             <td class="netChange"><%= parseFloat(stock.netChange).toFixed(2) %> </td>
-            <td class="percentChange">
+            <td id="row-item" class="percentChange">
                     <% let percentChange = ((stock.netChange / stock.openPrice) * 100) %>
                     <%= parseFloat(percentChange).toFixed(2) %>%
             </td>
@@ -44,4 +44,14 @@
         </tr>
     <% }); %> 
     </table>
-   
+    <script>
+        document.querySelectorAll('#row-item').forEach( item =>{
+            let number = item.innerHTML
+            number = parseInt(number.slice(0,-1))
+            if(number > 0 ) {
+                item.style.backgroundColor = 'rgba(100, 215, 97)'
+            } else {
+                item.style.backgroundColor = 'rgba(255, 0, 0)'
+            }
+        })
+    </script>

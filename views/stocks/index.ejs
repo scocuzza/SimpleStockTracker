@@ -1,5 +1,10 @@
-<h1>Simple Stock Tracker Dashboard</h1>
+<h1>Simple Stock Tracker</h1>
 <h2>All Stocks</h2>
+<form class="new-stock-form" action="/stocks" method="POST">
+    <label for="symbol">Symbol</label>
+    <input id="symbol" name="symbol" type="text" placeholder="Enter Ticker Symbol">
+    <button type="submit">Submit</button>
+</form>
 <table class="stock-table">
 <tr>
     <th>

@@ -57,6 +57,9 @@ app.use('/stocks', stockController)
 const watchlistController = require('./controllers/watchlist_controller.js')
 app.use('/watchlists', watchlistController)
 
+const userController = require('./controllers/user_controller.js')
+app.use('/users', userController)
+
 //___________________
 // Routes
 //___________________
