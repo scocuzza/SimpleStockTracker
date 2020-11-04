@@ -36,7 +36,7 @@ router.post('/', (req, res) => {
         // add the user to our session
         req.session.currentUser = foundUser;
         // redirect back to our home page
-        res.redirect('/');
+        res.redirect('/watchlists');
       } else {
         // passwords do not match
         res.send('<a href="/"> password does not match </a>');
@@ -49,7 +49,7 @@ router.delete('/', (req, res) => {
   console.log(req.session);
   req.session.destroy(() => {
     console.log(req.session);
-    res.redirect('/');
+    res.redirect('/stocks');
   });
 });
 

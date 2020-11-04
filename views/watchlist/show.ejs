@@ -1,10 +1,11 @@
+<%- include ('../partials/nav.ejs') %> 
 <h1><%= watchlist.name%></h1>
     <form action="/watchlists/<%= watchlist._id%>/stocks" method="POST">
         <label for="symbol">Add New Stock</label>
         <input type="text" name="symbol" id="symbol" placeholder="Enter Ticker Symbol">
         <button>Submit</button>
     </form>
-<table>
+<table class="table">
     <tr>
         <th>
             Symbol
@@ -41,6 +42,10 @@
                     <button>Delete</button>
                 </form>
             </td>
+            <td>
+                <a href="/watchlists/<%= watchlist._id %>/stocks/<%=stock._id%>/edit">Edit</a>
+            </td>
+            
         </tr>
     <% }); %> 
     </table>

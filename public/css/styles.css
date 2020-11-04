@@ -21,6 +21,10 @@ button {
   background-color: transparent;
 
 }
+.new-stock-div {
+  display: flex;
+  justify-content: center;
+}
 .ul-nav {
     list-style-type: none;
     margin: 0;

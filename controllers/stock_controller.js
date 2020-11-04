@@ -8,20 +8,22 @@ const helper = require('../helper_functions.js')
 router.get('/', async (req, res) => {
     let stocks = await Stock.find({});
     res.render('./stocks/index.ejs', {
-        stocks
+        stocks,
+        currentUser: req.session.currentUser 
     });
 })
 
 //NEW
 router.get('/new', async (req, res) => {
-    res.render('./stocks/new.ejs');
+    res.render('./stocks/new.ejs',  { currentUser: req.session.currentUser });
   });
 
 //SHOW
 router.get('/:id', async (req, res)=>{
     await Stock.findById(req.params.id, (error, stockFound)=>{
         res.render('./stocks/show.ejs', {
-            stock: stockFound
+            stock: stockFound,
+            currentUser: req.session.currentUser 
         })
     })
 })
@@ -48,7 +50,10 @@ router.delete('/:id', async (req, res)=>{
 //EDIT
 router.get('/:id/edit', async (req,res)=> {
     await Stock.findById(req.params.id, (error, stockFound)=>{
-        res.render('./stocks/edit.ejs', {stock: stockFound})
+        res.render('./stocks/edit.ejs', {
+            stock: stockFound,
+            currentUser: req.session.currentUser 
+        })
     })
 })
 

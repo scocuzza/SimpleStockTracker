@@ -3,6 +3,7 @@ const router = require('express').Router();
 const axios = require('axios');
 const WatchList = require('../models/watchlist');
 const Stock = require("../models/stock")
+const User = require("../models/users")
 const helper = require('../helper_functions')
 
 const isAuthenticated = (req, res, next) => {
@@ -15,18 +16,30 @@ const isAuthenticated = (req, res, next) => {
 
 //INDEX
 router.get('/', isAuthenticated, async (req, res) => {
-    let watchlist = await WatchList.find({})
-    res.render('./watchlist/index.ejs', {watchlists: watchlist})
+    let user = await User.findById(req.session.currentUser._id).populate('watchlists')
+    console.log(user);
+    res.render('./watchlist/index.ejs', {
+        watchlists: user.watchlists,
+        currentUser: req.session.currentUser 
+    })
 })
 
 //NEW
 router.get('/new', isAuthenticated, async (req, res) => {
-    res.render('./watchlist/new.ejs')
+    res.render('./watchlist/new.ejs', { currentUser: req.session.currentUser })
 })
 
-//CREATE watchlist
+//CREATE watchlist and save as reference to user
 router.post('/', isAuthenticated, async (req, res)=>{
-    await WatchList.create(req.body)
+    let watchlist = await WatchList.create(req.body)
+    let user = await User.findById(req.session.currentUser._id)
+    user.watchlists.push(watchlist)
+    user.save(function (err, watchlist) {
+        if (err) {
+            console.log(err);
+        } else {
+        }
+    })
     res.redirect('/watchlists')
 })
 
@@ -76,7 +89,46 @@ router.delete('/:watchlistid/stocks/:stockid', isAuthenticated, async (req, res)
 //SHOW
 router.get('/:id', isAuthenticated, async (req, res)=>{
     let watchlist = await WatchList.findById(req.params.id).populate('stocks')
-    res.render('./watchlist/show.ejs', {watchlist})
+    res.render('./watchlist/show.ejs', {watchlist, currentUser: req.session.currentUser })
+})
+
+//Edit
+router.get('/:watchlistid/stocks/:stockid/edit', isAuthenticated, async (req, res)=>{
+    let watchlistid = req.params.watchlistid
+    let stockid = req.params.stockid
+    let watchlist = await WatchList.findById(watchlistid)
+    let stock = await Stock.findById(stockid)
+    res.render('./watchlist/edit.ejs', {
+        watchlist,
+        currentUser: req.session.currentUser,
+        stock
+     })
+})
+
+//PUT
+router.put('/:watchlistid/stocks/:stockid/edit', isAuthenticated, async (req, res)=>{
+    let symbolEntered = req.body.symbol.toUpperCase()
+    let existingStock = await Stock.findById(req.params.stockid)
+    let isNewStockFound = await Stock.findOne({symbol: symbolEntered}).countDocuments() > 0
+    let watchlist = await WatchList.findById(req.params.watchlistid)
+    watchlist.stocks.remove(existingStock._id)
+    
+    if (isNewStockFound) {
+        let stockFound = await Stock.findOne({symbol: symbolEntered})
+        watchlist.stocks.push(stockFound._id)
+    } else {
+        let newStockData = await helper.getStockData(symbolEntered)
+        let newStock = await helper.createStock(newStockData, symbolEntered)
+        Stock.create(newStock)
+        watchlist.stocks.push(newStock)
+    }
+    watchlist.save(function (err, watchlist) {
+        if (err) {
+            console.log(err);
+        } else {
+        }
+    })
+    res.redirect('/watchlists/'+req.params.watchlistid)
 })
 
 module.exports = router;

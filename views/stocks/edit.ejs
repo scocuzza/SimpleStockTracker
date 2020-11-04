@@ -1,3 +1,5 @@
+<%- include ('../partials/nav.ejs') %> 
+<h1>Edit Current Stock</h1>
 <form action="/stocks/<%= stock._id %>?_method=PUT" method="POST">
     <label for="title">Enter New Symbol</label>
     <input type="text" name="symbol" id="symbol" value="<%= stock.symbol%>">

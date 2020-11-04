@@ -82,9 +82,9 @@ app.use('/sessions', sessionController)
 
 //On the server refresh the stock items in the DB
 //functions located in tools.js
-setInterval( ()=>{
-    helper.refreshData();
-}, 5000)
+// setInterval( ()=>{
+//     helper.refreshData();
+// }, 5000)
 
 // Socket Connection
 // Upon user connection emit a testEvent on an interval which retrieves latest values from DB
