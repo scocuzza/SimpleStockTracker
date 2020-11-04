@@ -1,14 +1,14 @@
 
 const Stock = require('./models/stock')
 const axios = require('axios')
+const apikey = 'TMIF9RATR89WC6J6BDOSA1PYQS7KKUBT'
+const url = 'https://api.tdameritrade.com/v1/marketdata/quotes'
 
-async function refresh() {
-    await refreshData();
-}
 async function refreshData() {
     let stockArray = await getCurrentSymbols();
-    let newStockData = await getStockData(stockArray.join(','))
-    await updateStockData(stockArray, newStockData)
+    let stockData = await getStockData(stockArray.join(','))
+    await updateStockData(stockArray, stockData)
+
 }
  async function getCurrentSymbols() {
     let stockArray = []
@@ -20,34 +20,23 @@ async function refreshData() {
     return stockArray
 }
 async function getStockData(symbols) {
-    console.log('Starting API call');
-    let config = {
-        method: 'GET',
-        url: 'https://api.tdameritrade.com/v1/marketdata/quotes',
+    console.log('..................');
+    console.log('API Call is Executing');
+    const response = await axios({
+        url: url,
         params: {
-            apikey: 'TMIF9RATR89WC6J6BDOSA1PYQS7KKUBT',
+            apikey: apikey,
             symbol: symbols
-        },
-        headers: { }
-      };
-    await axios(config)
-    .then(async function (response) {
-        data = response.data
-        console.log('API call complete');
+        }
     })
-    .catch(async function (error) {
-        console.log(error);
-    })
-    return data
+    console.log('API Call is Complete');
+    return response.data
 }
 async function updateStockData(stockArray, newStock) {
-    console.log('Updating DB...');
-    stockArray.forEach( async stock => {
+    console.log('DB Update is Executing');
+    await stockArray.forEach( async stock => {
         await Stock.updateOne({symbol: stock}, 
             {
-            assetType: newStock[stock].assetType,
-            assetMainType: newStock[stock].assetMainType,
-            cusip: newStock[stock].cusip,
             symbol: newStock[stock].symbol,
             description: newStock[stock].description,
             bidPrice: newStock[stock].bidPrice,
@@ -96,13 +85,11 @@ async function updateStockData(stockArray, newStock) {
             //console.log('Update Complete ' + stock);
         })
         })
+        console.log('DB Update is Complete ');
 }
 async function createStock(data, element) {
     element = element.toUpperCase()
     return new Stock({
-        assetType: data[element].assetType,
-        assetMainType: data[element].assetMainType,
-        cusip: data[element].cusip,
         symbol: data[element].symbol,
         description: data[element].description,
         bidPrice: data[element].bidPrice,
@@ -150,4 +137,4 @@ async function createStock(data, element) {
       });
 }
 
-module.exports = { refresh, getStockData, createStock }
+module.exports = { refreshData, getStockData, createStock }

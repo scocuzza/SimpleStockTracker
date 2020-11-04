@@ -2,11 +2,13 @@
 //___________________
 //Dependencies
 //___________________
+require('dotenv').config()
 const express = require('express');
 const axios = require('axios')
 const expressLayouts = require('express-ejs-layouts')
 const methodOverride  = require('method-override');
 const mongoose = require ('mongoose');
+const session = require('express-session')
 const app = express()
 const db = mongoose.connection;
 let http = require('http').Server(app);
@@ -40,6 +42,13 @@ db.on('open' , ()=>{});
 //___________________
 //Middleware
 //___________________
+app.use(
+    session({
+      secret: process.env.SECRET, //a random string do not copy this value or your stuff will get hacked
+      resave: false, // default more info: https://www.npmjs.com/package/express-session#resave
+      saveUninitialized: false // default  more info: https://www.npmjs.com/package/express-session#resave
+    })
+  )
 //use public folder for static assets
 app.use(express.static('public'));
 // populates req.body with parsed info from forms - if no data from forms will return an empty object {}
@@ -60,6 +69,9 @@ app.use('/watchlists', watchlistController)
 const userController = require('./controllers/user_controller.js')
 app.use('/users', userController)
 
+const sessionController = require('./controllers/session_controller.js')
+app.use('/sessions', sessionController)
+
 //___________________
 // Routes
 //___________________
@@ -70,23 +82,19 @@ app.use('/users', userController)
 
 //On the server refresh the stock items in the DB
 //functions located in tools.js
-setInterval( async()=>{
-    await helper.refresh();
+setInterval( ()=>{
+    helper.refreshData();
 }, 5000)
 
 // Socket Connection
 // Upon user connection emit a testEvent on an interval which retrieves latest values from DB
 io.on('connection', function(socket) {
-    console.log('A user connected');
 
     setInterval( async()=>{
         let stocks = await Stock.find({})
         socket.emit('testEvent', {stocks})
     },5000)
 
-    socket.on('disconnect', function () {
-       console.log('A user disconnected');
-    });
  });
 
 http.listen(PORT, () => console.log( 'Listening on port:', PORT));

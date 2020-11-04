@@ -1,9 +1,6 @@
 const mongoose = require('mongoose')
 
 const stockSchema = new mongoose.Schema({
-    assetType: {type: String},
-    assetMainType: {type: String},
-    cusip: {type: String},
     symbol: {type: String},
     description: {type: String},
     bidPrice: {type: String},
