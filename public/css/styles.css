@@ -1,22 +1,39 @@
 body {
     font-family: 'Indie Flower', cursive;
+    background-color: rgba(32, 32, 32);
+    color: white;
+    font-size: 25px;
+}
+
+a {
+  color: white;
+}
+ul {
+  list-style-type: none;
+}
+button {
+  border-radius: 10px;
+  border-color: white;
+  color: white;
+  background-color: transparent;
+
 }
 .ul-nav {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: rgba(82, 168, 93);
+    background-color: rgba(100, 215, 97);
   }
-  button {
+  .delete-form {
+      margin-bottom: 0;
+  }
+  .delete-btn {
       border-radius: 10px;
       background-color: transparent;
       height: 100%;
       width: 100%;
-  }
-  .delete-form {
-      display: inline-block;
-      margin-bottom: 0;
+      background-color: red;
   }
   .li-nav {
     float: left;
@@ -41,11 +58,12 @@ body {
     background-color: #4CAF50;
   }
 table {
-    font-size: 20px;
+    font-size: 25px;
+    font-weight: bold;
 }
   th, td{
     border-bottom: 1px solid #ddd;
     border-radius: 10px;
     text-align: center;
+    padding-top: 10px;
   }
- 
