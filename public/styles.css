@@ -8,7 +8,16 @@ body {
     overflow: hidden;
     background-color: rgba(82, 168, 93);
   }
-  
+  button {
+      border-radius: 10px;
+      background-color: transparent;
+      height: 100%;
+      width: 100%;
+  }
+  .delete-form {
+      display: inline-block;
+      margin-bottom: 0;
+  }
   .li-nav {
     float: left;
 
