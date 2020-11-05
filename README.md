@@ -3,11 +3,12 @@
 Heroku Link\
 https://simple-stock-tracker-app.herokuapp.com/stocks
 ## Highlighted Features
-View/Add/Edit/Delete Stocks from the homepage\
+Perform full CRUD operations on Stocks from the homepage\
 Sign up to: \
-    - View/Add/Edit/Delete a personalized stock watchlist\
+    - Perform full CRUD operations on a personalized stock watchlist\
+Exciting features :fire::fire:
 Prices update automatically :open_mouth:\
-Sort to see top gainers and losers of the day !
+Sort to see top gainers and losers of the day :thumbsup::thumbsdown:!
 ## Technology Stack
 Javascript \
     Libraries: \
