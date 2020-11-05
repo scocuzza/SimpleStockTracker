@@ -1,6 +1,7 @@
 document.querySelectorAll('#row-item').forEach( item =>{
     let number = item.innerHTML
-    number = parseInt(number.slice(0,-1))
+    number = parseFloat(number.slice(0,-1))
+    console.log(number);
     if(number > 0 ) {
         item.style.backgroundColor = 'rgba(100, 215, 97)'
     } else {
