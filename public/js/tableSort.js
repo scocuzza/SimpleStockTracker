@@ -1,6 +1,7 @@
 function sortTable(n) {
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
     table = document.querySelector('#myTable')
+    console.log(table);
     switching = true;
     dir = "asc";
     while (switching) {

@@ -14,39 +14,25 @@
         <button name="delete-stock">Delete</button>
     </form>
 <div class="table-div">
-<table class="table">
+<table class="table" id="myTable">
     <tr>
-        <th>
-            Symbol
-        </th>
-        <th>
-            Description
-        </th>
-        <th>
-            openPrice
-        </th>
-        <th>
-            lastPrice
-        </th>
-        <th>
-            Net Change
-        </th>
-        <th>
-            Percent Change
-        </th>
+        <th onclick="sortTable(0)">Symbol</th>
+        <th onclick="sortTable(1)">Description</th>
+        <th onclick="sortTableNum(2)">Open Price</th>
+        <th onclick="sortTableNum(3)">Last Price</th>
+        <th onclick="sortTableNum(4)">Net Change</th>
+        <th onclick="sortTablePercent(5)">Percent Change</th>
     </tr>
     <% watchlist.stocks.forEach(stock => { %>
         <tr class="<%=stock.symbol%>">
-            <td class="symbol">
-                <a href="/stocks/<%=stock._id%>"><%= stock.symbol %></a>
-            </td>
-            <td class="description"><%= stock.description %> </td>
-            <td class="openPrice">$<%= parseFloat(stock.openPrice).toFixed(2) %> </td>
-            <td class="lastPrice">$<%= parseFloat(stock.lastPrice).toFixed(2) %> </td>
-            <td class="netChange"><%= parseFloat(stock.netChange).toFixed(2) %> </td>
+            <td class="symbol"><a href="/stocks/<%=stock._id%>"><%=stock.symbol%></a></td>
+            <td class="description"><%=stock.description%></td>
+            <td class="openPrice">$<%=parseFloat(stock.openPrice).toFixed(2)%></td>
+            <td class="lastPrice">$<%=parseFloat(stock.lastPrice).toFixed(2)%></td>
+            <td class="netChange">$<%=parseFloat(stock.netChange).toFixed(2)%></td>
             <td id="row-item" class="percentChange">
                     <% let percentChange = ((stock.netChange / stock.openPrice) * 100) %>
-                    <%= parseFloat(percentChange).toFixed(2) %>%
+                    <%=parseFloat(percentChange).toFixed(2)%>%
             </td>
             <td class="delete">
                 <form action="/watchlists/<%=watchlist._id%>/stocks/<%=stock._id%>?_method=DELETE" method="POST">
@@ -61,23 +47,12 @@
     <% }); %> 
     </table>
 </div>
-<script>
-    document.querySelectorAll('#row-item').forEach( item =>{
-        let number = item.innerHTML
-        number = parseInt(number.slice(0,-1))
-        if(number > 0 ) {
-            item.style.backgroundColor = 'rgba(100, 215, 97)'
-        } else {
-            item.style.backgroundColor = 'rgba(255, 0, 0)'
-        }
-    })
-</script>
+<script src="/js/price-color.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
     var socket = io();
     socket.on('testEvent2', function(stocks){
         let data = stocks.stocks
-        console.log(data);
         data.forEach(stock => {
             let lastPrice = document.querySelector('.' + stock.symbol + ' .lastPrice')
             let openPrice = document.querySelector('.' + stock.symbol + ' .openPrice')
@@ -85,7 +60,7 @@
             let percentChange = document.querySelector('.' + stock.symbol + ' .percentChange')
             openPrice.innerHTML = '$' + parseFloat(stock.openPrice).toFixed(2)
             lastPrice.innerHTML = '$' + parseFloat(stock.lastPrice).toFixed(2)
-            netChange.innerHTML = parseFloat(stock.netChange).toFixed(2)
+            netChange.innerHTML = '$' + parseFloat(stock.netChange).toFixed(2)
             if(stock.openPrice != 0) {
                 let percentChangeCalc = ((stock.netChange / stock.openPrice) * 100)
                 percentChange.innerHTML = parseFloat(percentChangeCalc).toFixed(2) + '%'
@@ -96,3 +71,4 @@
         });
     });
 </script>
+<script src="/js/tableSort.js"></script>
