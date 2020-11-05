@@ -22,7 +22,7 @@ Javascript \
     "method-override": "^3.0.0",
     "mongoose": "^5.10.11",
     "socket.io": "^2.3.0"
-    ```
+    ``` \
 CSS \
     - Bootstrap \
 HTML \
@@ -49,3 +49,11 @@ User -> Many Watchlists -> Many Stocks
 ## Wireframe
 WireFrame
 (https://docs.google.com/drawings/d/1CVQ_SaS2Rboyzgl6m3V_NxA9GcX2dsIF3JcBa80rZ1I/edit?usp=sharing)
+## Future Features
+- Set Price Targets for Stocks
+- Set Number of Shares to get a Portfolio total value and asset allocation stats
+- Price History Charts
+## Completed Challenges
+- Update stock prices without refreshing on all stock tables
+- Sort columns on all stock tables
+- Allow users to create personal watchlists and perform full CRUD operations
