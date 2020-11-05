@@ -27,7 +27,7 @@ CSS \
     - Bootstrap \
 HTML \
 MongoDB \
-Heroku
+Heroku \
 TD Ameritrade Developer API
 - https://developer.tdameritrade.com/apis
 ## Models
