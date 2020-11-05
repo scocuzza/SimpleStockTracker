@@ -6,7 +6,7 @@ https://simple-stock-tracker-app.herokuapp.com/stocks
 View/Add/Edit/Delete Stocks from the homepage\
 Sign up to: \
     - View/Add/Edit/Delete a personalized stock watchlist\
-Prices update automatically !\
+Prices update automatically :open_mouth:\
 Sort to see top gainers and losers of the day !
 ## Technology Stack
 Javascript \
