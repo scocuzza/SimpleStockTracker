@@ -34,7 +34,7 @@ TD Ameritrade Developer API
 Users: Create | Read \
 Stocks: Create | Read | Update | Delete \
 Watchlists: Create | Read | Update | Delete \
-Relationship \
+Relationships \
 User -> Many Watchlists -> Many Stocks
 ## User Stories
 - As a User, I would like to view all stocks that have been added on the homepage
