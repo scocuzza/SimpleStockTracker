@@ -1,8 +1,8 @@
 
 const Stock = require('./models/stock')
 const axios = require('axios')
-const apikey = 'TMIF9RATR89WC6J6BDOSA1PYQS7KKUBT'
-const url = 'https://api.tdameritrade.com/v1/marketdata/quotes'
+const apikey = process.env.APIKEY
+const url = process.env.URL
 
 async function refreshData() {
     let stockArray = await getCurrentSymbols();
