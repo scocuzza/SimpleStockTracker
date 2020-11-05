@@ -15,7 +15,8 @@ let http = require('http').Server(app);
 let io = require('socket.io')(http);
 global.io = io
 const Stock = require('./models/stock.js');
-let helper = require('./helper_functions')
+let helper = require('./helper_functions.js')
+
 
 //___________________
 //Port
@@ -45,7 +46,7 @@ db.on('open' , ()=>{});
 //___________________
 app.use(
     session({
-      secret: process.env.SECRET || 'FeedMeSeymour', //a random string do not copy this value or your stuff will get hacked
+      secret: process.env.SECRET, //a random string do not copy this value or your stuff will get hacked
       resave: false, // default more info: https://www.npmjs.com/package/express-session#resave
       saveUninitialized: false // default  more info: https://www.npmjs.com/package/express-session#resave
     })
