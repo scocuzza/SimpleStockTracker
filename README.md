@@ -1,8 +1,9 @@
 # Simple Stock Tracker
 ## Hosted App
+https://simple-stock-tracker-app.herokuapp.com/stocks
 ## Models
 Users: Create | Read
-Stocks: Create | Read
+Stocks: Create | Read | Update | Delete
 Watchlists: Create | Read | Update | Delete
 User -> Many Watchlists -> Many Stocks
 ## User Stories

@@ -8,26 +8,14 @@
     </form>
 </div>
 <div class="table-div">
-    <table class="table table-sm">
+    <table class="table table-sm" id="myTable">
     <tr>
-        <th>
-            Symbol
-        </th>
-        <th>
-            Description
-        </th>
-        <th>
-            Open Price
-        </th>
-        <th>
-            Last Price
-        </th>
-        <th>
-            Net Daily Change
-        </th>
-        <th>
-            Percent Daily Change
-        </th>
+        <th onclick="sortTable(0)">Symbol</th>
+        <th onclick="sortTable(1)">Description</th>
+        <th onclick="sortTableNum(2)">Open Price</th>
+        <th onclick="sortTableNum(3)">Last Price</th>
+        <th onclick="sortTableNum(4)">Net Daily Change</th>
+        <th onclick="sortTablePercent(5)">Percent Daily Change</th>
     </tr>
     <% for(let i = 0; i < stocks.length; i++)  {%> 
         <tr id="row" class="<%= stocks[i].symbol %>">
@@ -36,71 +24,32 @@
                     <%= stocks[i].symbol %> 
                 </a>
             </td>
-            <td class="description">
-                <%= stocks[i].description %> 
-            </td >
-            <td class="openPrice">
-                $<%= parseFloat(stocks[i].openPrice).toFixed(2) %> 
-            </td>
-            <td class="lastPrice">
-                $<%= parseFloat(stocks[i].lastPrice).toFixed(2) %> 
-            </td>
-            <td class="netChange">
-                <%= parseFloat(stocks[i].netChange).toFixed(2) %> 
-            </td>
+            <td class="description"><%=stocks[i].description%></td >
+            <td class="openPrice">$<%=parseFloat(stocks[i].openPrice).toFixed(2)%></td>
+            <td class="lastPrice">$<%=parseFloat(stocks[i].lastPrice).toFixed(2)%></td>
+            <td class="netChange">$<%=parseFloat(stocks[i].netChange).toFixed(2)%></td>
             <td id="row-item" class="percentChange">
                 <% if(stocks[i].openPrice != 0) { %>
                 <% percentChange = ((stocks[i].netChange / stocks[i].openPrice) * 100) %>
-                <%= parseFloat(percentChange).toFixed(2) %>%
+                <%=parseFloat(percentChange).toFixed(2)%>%
                 <% } else { %> 
-                <% percentChange = 'N/A' %>
-                <%= percentChange %>
+                <%percentChange = 'N/A'%>
+                <%=percentChange%>
                 <% } %> 
             </td>
-            <!-- <td class="delete">
+            <td class="delete">
                 <form class="delete-form" action="/stocks/<%=stocks[i]._id%>?_method=DELETE" method="POST">
                         <button class="delete-btn">X</button>
                 </form>
             </td>
             <td>
                 <a href="/stocks/<%=stocks[i]._id%>/edit">Edit</a>
-            </td> -->
+            </td>
         </tr>
     <% } %>
     </table>
 </div>
-
 <script src="/socket.io/socket.io.js"></script>
-<script>
-    var socket = io();
-    socket.on('testEvent', function(stocks){
-        let data = stocks.stocks
-        data.forEach(stock => {
-            let lastPrice = document.querySelector('.' + stock.symbol + ' .lastPrice')
-            let openPrice = document.querySelector('.' + stock.symbol + ' .openPrice')
-            let netChange = document.querySelector('.' + stock.symbol + ' .netChange')
-            let percentChange = document.querySelector('.' + stock.symbol + ' .percentChange')
-            openPrice.innerHTML = '$' + parseFloat(stock.openPrice).toFixed(2)
-            lastPrice.innerHTML = '$' + parseFloat(stock.lastPrice).toFixed(2)
-            netChange.innerHTML = parseFloat(stock.netChange).toFixed(2)
-            if(stock.openPrice != 0) {
-                let percentChangeCalc = ((stock.netChange / stock.openPrice) * 100)
-                percentChange.innerHTML = parseFloat(percentChangeCalc).toFixed(2) + '%'
-            } else {
-                percentChange.innerHTML = 'N/A'
-            }
-            
-        });
-    });
-    </script>
-<script>
-    document.querySelectorAll('#row-item').forEach( item =>{
-        let number = item.innerHTML
-        number = parseInt(number.slice(0,-1))
-        if(number > 0 ) {
-            item.style.backgroundColor = 'rgba(100, 215, 97)'
-        } else {
-            item.style.backgroundColor = 'rgba(255, 0, 0)'
-        }
-    })
-</script>
+<script src="/js/socket.js"></script>
+<script src="/js/price-color.js"></script>
+<script src="/js/tableSort.js"></script>
