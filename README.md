@@ -1,36 +1,36 @@
 # Simple Stock Tracker
 ## Hosted App
-Heroku Link
+Heroku Link\
 https://simple-stock-tracker-app.herokuapp.com/stocks
 ## Highlighted Features
-View/Add/Edit/Delete Stocks from the homepage
-Log in to:
-    View/Add/Edit/Delete a personalized stock watchlist
-Prices update automatically !
+View/Add/Edit/Delete Stocks from the homepage\
+Log in to:\
+    View/Add/Edit/Delete a personalized stock watchlist\
+Prices update automatically !\
 Sort to see top gainers and losers of the day !
 ## Technology Stack
-Javascript
-    Libraries:
-    - "axios": "^0.21.0",
-    - "bcrypt": "^5.0.0",
-    - "dotenv": "^8.2.0",
-    - "ejs": "^3.1.5",
-    - "express": "^4.17.1",
-    - "express-ejs-layouts": "^2.5.0",
-    - "express-session": "^1.17.1",
-    - "method-override": "^3.0.0",
-    - "mongoose": "^5.10.11",
-    - "socket.io": "^2.3.0"
-CSS
-    - Bootstrap
-HTML
-MongoDB
-Heroku
+Javascript \
+    Libraries: \
+    "axios": "^0.21.0",
+    "bcrypt": "^5.0.0",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.0",
+    "express-session": "^1.17.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.10.11",
+    "socket.io": "^2.3.0"
+CSS \
+    - Bootstrap \
+HTML \
+MongoDB \
+Heroku \
 ## Models
-Users: Create | Read
-Stocks: Create | Read | Update | Delete
-Watchlists: Create | Read | Update | Delete
-Relationship
+Users: Create | Read \
+Stocks: Create | Read | Update | Delete \
+Watchlists: Create | Read | Update | Delete \
+Relationship \
 User -> Many Watchlists -> Many Stocks
 ## User Stories
 - As a User, I would like to view all stocks that have been added on the homepage
