@@ -1,5 +1,8 @@
 <%- include ('../partials/nav.ejs') %> 
-<h1><%= watchlist.name%></h1>
+<div class="watchlist-edit">
+    <h1><%= watchlist.name%></h1>
+    <a href="/watchlists/<%=watchlist._id %>/edit">Edit Watchlist Name</a>
+</div>
     <form action="/watchlists/stocks/<%= watchlist._id%>" method="POST">
         <label for="symbol">Add New Stock</label>
         <input type="text" name="symbol" id="symbol" placeholder="Enter Ticker Symbol">
@@ -75,18 +78,6 @@
     socket.on('testEvent2', function(stocks){
         let data = stocks.stocks
         console.log(data);
-        // console.log(data);
-        // let tableSymbols = document.querySelectorAll('.symbol')
-        // tableSymbols.forEach(stock=>{
-        //     let symbol = stock.innerHTML;
-        //     let lastPrice = document.querySelector('.' + symbol + ' .lastPrice')
-        //     let openPrice = document.querySelector('.' + symbol + ' .openPrice')
-        //     let netChange = document.querySelector('.' + symbol + ' .netChange')
-        //     let percentChange = document.querySelector('.' + symbol + ' .percentChange')
-        //     openPrice.innerHTML = '$' + parseFloat(data[symbol].openPrice).toFixed(2)
-        //     lastPrice.innerHTML = '$' + parseFloat(data[symbol].lastPrice).toFixed(2)
-        //     netChange.innerHTML = parseFloat(data[symbol].netChange).toFixed(2)
-        // })
         data.forEach(stock => {
             let lastPrice = document.querySelector('.' + stock.symbol + ' .lastPrice')
             let openPrice = document.querySelector('.' + stock.symbol + ' .openPrice')

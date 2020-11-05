@@ -50,6 +50,15 @@ router.get('/:watchlistid/stocks/:stockid/edit', isAuthenticated, async (req, re
         stock
      })
 })
+//Edit
+router.get('/:watchlistid/edit', isAuthenticated, async (req, res)=>{
+    let watchlist = await WatchList.findById(req.params.watchlistid)
+    res.render('./watchlist/watchlist_edit.ejs', {
+        watchlist,
+        currentUser: req.session.currentUser
+     })
+})
+
 //POST Routes
 //CREATE watchlist
 router.post('/', isAuthenticated, async (req, res)=>{
@@ -126,6 +135,19 @@ router.put('/:watchlistid/stocks/:stockid/edit', isAuthenticated, async (req, re
         watchlist.stocks.push(newStock)
     }
     watchlist.save(function (err, watchlist) {
+        if (err) {
+            console.log(err);
+        } else {
+        }
+    })
+    res.redirect('/watchlists/'+req.params.watchlistid)
+})
+
+router.put('/:watchlistid/edit', isAuthenticated, async (req, res)=>{
+    let watchlist = await WatchList.findById(req.params.watchlistid)
+    let name = req.body.name
+    watchlist.name = name
+    await watchlist.save(function (err, watchlist) {
         if (err) {
             console.log(err);
         } else {
