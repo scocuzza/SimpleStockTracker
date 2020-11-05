@@ -4,7 +4,7 @@ Heroku Link\
 https://simple-stock-tracker-app.herokuapp.com/stocks
 ## Highlighted Features
 View/Add/Edit/Delete Stocks from the homepage\
-Sign up to:
+Sign up to: \
     - View/Add/Edit/Delete a personalized stock watchlist\
 Prices update automatically !\
 Sort to see top gainers and losers of the day !
@@ -12,16 +12,16 @@ Sort to see top gainers and losers of the day !
 Javascript \
     Libraries: \
     ```
-    "axios": "^0.21.0", \
-    "bcrypt": "^5.0.0", \
-    "dotenv": "^8.2.0", \
-    "ejs": "^3.1.5", \
-    "express": "^4.17.1", \
-    "express-ejs-layouts": "^2.5.0", \
-    "express-session": "^1.17.1", \
-    "method-override": "^3.0.0", \
-    "mongoose": "^5.10.11", \
-    "socket.io": "^2.3.0" \
+    "axios": "^0.21.0",
+    "bcrypt": "^5.0.0",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.0",
+    "express-session": "^1.17.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.10.11",
+    "socket.io": "^2.3.0"
     ```
 CSS \
     - Bootstrap \
