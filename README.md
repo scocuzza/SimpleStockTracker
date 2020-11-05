@@ -6,12 +6,12 @@ Stocks: Create | Read
 Watchlists: Create | Read | Update | Delete
 User -> Many Watchlists -> Many Stocks
 ## User Stories
-- As a User, I would like to view all stocks added on the homepage
+- As a User, I would like to view all stocks that have been added on the homepage
 - As a User, I would need to first log In in order to create a watchlist
-- As a User, I would like to be able to create a watchlist/s specific to me
+- As a User, I would like to be able to create a watchlist/s specific to my user
 - As a User, I would like to be able to edit my Watchlist name
 - As a User, I would like to be able to add stocks to my watchlist/s
-- As a User, I would like to be able to view addtional details of a particular stock
+- As a User, I would like to be able to click on a stock to view additional details
 - As a User, I would like to be able to update a stock in my watchlist
 - As a User, I would like to be able to remove stocks from my watchlist
 - As a User, I would like to be able to delete my watchlist
