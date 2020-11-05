@@ -4,11 +4,10 @@ Heroku Link\
 https://simple-stock-tracker-app.herokuapp.com/stocks
 ## Highlighted Features
 Perform full CRUD operations on Stocks from the homepage\
-Sign up to: \
-    - Perform full CRUD operations on a personalized stock watchlist\
-Exciting features :fire::fire:
-Prices update automatically :open_mouth:\
-Sort to see top gainers and losers of the day :thumbsup::thumbsdown:!
+Sign up! And Perform full CRUD operations on a personalized stock watchlist\
+Exciting features :fire::fire: \
+- Prices update automatically :open_mouth:\
+- Sort to see top gainers and losers of the day ! :thumbsup::thumbsdown: 
 ## Technology Stack
 Javascript \
     Libraries: \
