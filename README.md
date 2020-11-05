@@ -3,9 +3,9 @@
 Heroku Link\
 https://simple-stock-tracker-app.herokuapp.com/stocks
 ## Highlighted Features
-View/Add/Edit/Delete Stocks from the homepage\
-Log in to:\
-    View/Add/Edit/Delete a personalized stock watchlist\
+- View/Add/Edit/Delete Stocks from the homepage\
+Log in to:
+- View/Add/Edit/Delete a personalized stock watchlist\
 Prices update automatically !\
 Sort to see top gainers and losers of the day !
 ## Technology Stack
@@ -20,12 +20,12 @@ Javascript \
     "express-session": "^1.17.1",
     "method-override": "^3.0.0",
     "mongoose": "^5.10.11",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0" \
 CSS \
     - Bootstrap \
 HTML \
 MongoDB \
-Heroku \
+Heroku
 ## Models
 Users: Create | Read \
 Stocks: Create | Read | Update | Delete \
