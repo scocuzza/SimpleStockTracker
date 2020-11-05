@@ -4,6 +4,7 @@ const axios = require('axios');
 const Stock = require('../models/stock');
 const helper = require('../helper_functions.js')
 
+
 //INDEX
 router.get('/', async (req, res) => {
     let stocks = await Stock.find({});
@@ -34,7 +35,7 @@ router.post('/', async (req,res)=>{
     if (!isStockFound) {
         let newData = await helper.getStockData(req.body.symbol)
         let newStock = await helper.createStock(newData, req.body.symbol)
-        newStock.save(function (err, stock) {
+        await newStock.save(function (err, stock) {
         if (err) {
           console.log(err);
         }

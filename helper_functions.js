@@ -7,13 +7,15 @@ const url = 'https://api.tdameritrade.com/v1/marketdata/quotes'
 async function refreshData() {
     let stockArray = await getCurrentSymbols();
     let stockData = await getStockData(stockArray.join(','))
-    await updateStockData(stockArray, stockData)
+    if(JSON.stringify(stockData) != '{}') {
+        await updateStockData(stockArray, stockData)
+    }
 
 }
  async function getCurrentSymbols() {
     let stockArray = []
     await Stock.find({}, (err, data) => {
-        data.forEach(element=> {
+        data.forEach( element=> {
             stockArray.push(element.symbol)
         })
     })
@@ -28,7 +30,7 @@ async function getStockData(symbols) {
             apikey: apikey,
             symbol: symbols
         }
-    })
+    }).catch( e => {console.log((e));})
     console.log('API Call is Complete');
     return response.data
 }
