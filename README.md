@@ -53,6 +53,7 @@ WireFrame
 (https://docs.google.com/drawings/d/1CVQ_SaS2Rboyzgl6m3V_NxA9GcX2dsIF3JcBa80rZ1I/edit?usp=sharing)
 ## Future Features
 - Set Price Targets for Stocks
+- Send email or notification when Price Target is hit!
 - Set Number of Shares to get a Portfolio total value and asset allocation stats
 - Price History Charts
 ## Completed Challenges
