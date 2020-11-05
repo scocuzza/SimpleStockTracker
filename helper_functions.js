@@ -1,4 +1,5 @@
 
+require('dotenv').config()
 const Stock = require('./models/stock')
 const axios = require('axios')
 const apikey = process.env.APIKEY
