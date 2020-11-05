@@ -14,6 +14,7 @@ const isAuthenticated = (req, res, next) => {
     }
   };
 
+//GET ROUTES
 //INDEX
 router.get('/', isAuthenticated, async (req, res) => {
     let user = await User.findById(req.session.currentUser._id).populate('watchlists')
@@ -23,13 +24,34 @@ router.get('/', isAuthenticated, async (req, res) => {
         currentUser: req.session.currentUser 
     })
 })
-
 //NEW
 router.get('/new', isAuthenticated, async (req, res) => {
     res.render('./watchlist/new.ejs', { currentUser: req.session.currentUser })
 })
-
-//CREATE watchlist and save as reference to user
+//SHOW
+router.get('/:id', isAuthenticated, async (req, res)=>{
+    let watchlist = await WatchList.findById(req.params.id).populate('stocks')
+    setInterval( async()=>{
+        let watchlist = await WatchList.findById(req.params.id).populate('stocks')
+        stocks = watchlist.stocks
+        global.io.emit('testEvent2', {stocks})
+    },5000)
+    res.render('./watchlist/show.ejs', {watchlist, currentUser: req.session.currentUser })
+})
+//Edit
+router.get('/:watchlistid/stocks/:stockid/edit', isAuthenticated, async (req, res)=>{
+    let watchlistid = req.params.watchlistid
+    let stockid = req.params.stockid
+    let watchlist = await WatchList.findById(watchlistid)
+    let stock = await Stock.findById(stockid)
+    res.render('./watchlist/edit.ejs', {
+        watchlist,
+        currentUser: req.session.currentUser,
+        stock
+     })
+})
+//POST Routes
+//CREATE watchlist
 router.post('/', isAuthenticated, async (req, res)=>{
     let watchlist = await WatchList.create(req.body)
     let user = await User.findById(req.session.currentUser._id)
@@ -42,9 +64,8 @@ router.post('/', isAuthenticated, async (req, res)=>{
     })
     res.redirect('/watchlists')
 })
-
 //CREATE add stock to watchlist
-router.post('/:id/stocks',isAuthenticated, async (req, res)=> {
+router.post('/stocks/:id',isAuthenticated, async (req, res)=> {
     let currentWatchlist = await WatchList.findById(req.params.id)
     let stockFound =  await Stock.findOne({symbol: req.body.symbol.toUpperCase()})
     let isStockFound =  await Stock.findOne({symbol: req.body.symbol.toUpperCase()}).countDocuments() > 0
@@ -66,12 +87,7 @@ router.post('/:id/stocks',isAuthenticated, async (req, res)=> {
     })
     res.redirect('/watchlists/'+req.params.id)
 })
-
-//DELETE
-router.delete('/:id', isAuthenticated, async (req, res)=> {
-    await WatchList.findByIdAndDelete(req.params.id)
-    res.redirect('/watchlists')
-})
+//DELETE ROUTES
 //DELETE
 router.delete('/:watchlistid/stocks/:stockid', isAuthenticated, async (req, res)=> {
     let stockID = req.params.stockid 
@@ -85,26 +101,13 @@ router.delete('/:watchlistid/stocks/:stockid', isAuthenticated, async (req, res)
     })
     res.redirect('/watchlists/'+req.params.watchlistid)
 })
-
-//SHOW
-router.get('/:id', isAuthenticated, async (req, res)=>{
-    let watchlist = await WatchList.findById(req.params.id).populate('stocks')
-    res.render('./watchlist/show.ejs', {watchlist, currentUser: req.session.currentUser })
+//DELETE
+router.delete('/:id', isAuthenticated, async (req, res)=> {
+    await WatchList.findByIdAndDelete(req.params.id)
+    res.redirect('/watchlists/'+req.params.id)
 })
 
-//Edit
-router.get('/:watchlistid/stocks/:stockid/edit', isAuthenticated, async (req, res)=>{
-    let watchlistid = req.params.watchlistid
-    let stockid = req.params.stockid
-    let watchlist = await WatchList.findById(watchlistid)
-    let stock = await Stock.findById(stockid)
-    res.render('./watchlist/edit.ejs', {
-        watchlist,
-        currentUser: req.session.currentUser,
-        stock
-     })
-})
-
+//UPDATE ROUTES
 //PUT
 router.put('/:watchlistid/stocks/:stockid/edit', isAuthenticated, async (req, res)=>{
     let symbolEntered = req.body.symbol.toUpperCase()

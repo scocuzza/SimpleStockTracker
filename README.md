@@ -4,7 +4,7 @@
 Users: Create | Read
 Stocks: Create | Read
 Watchlists: Create | Read | Update | Delete
-
+User -> Many Watchlists -> Many Stocks
 ## User Stories
 - As a User, I would like to view all stocks added on the homepage
 - As a User, I would need to first log In in order to create a watchlist

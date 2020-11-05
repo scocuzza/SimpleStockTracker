@@ -1,9 +1,10 @@
 body {
-    font-family: 'Trispace', sans-serif;
+    /* font-family: 'Trispace', sans-serif; */
+    font-family: 'Indie Flower', cursive;
     text-align: center;
 }
 .nav {
-    font-size: 20px;
+    font-size: 23px;
 }
 ul {
     padding-left: 0px;
@@ -12,7 +13,6 @@ ul {
 .table-div {
     display: flex;
     justify-content: center;
-
 }
 .detail-table{
     display: flex;
@@ -39,4 +39,9 @@ table {
 .table {
     table-layout: auto;
     width: 80%;
+}
+.watchlist-table{
+    display: flex;
+    justify-content: center;
+    font-size: 35px;
 }

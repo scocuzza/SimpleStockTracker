@@ -30,14 +30,17 @@ router.get('/:id', async (req, res)=>{
 
 //CREATE 
 router.post('/', async (req,res)=>{
-    let newData = await helper.getStockData(req.body.symbol)
-    let newStock = await helper.createStock(newData, req.body.symbol)
-    newStock.save(function (err, stock) {
+    let isStockFound = await Stock.find({symbol: req.body.symbol}).countDocuments() > 0
+    if (!isStockFound) {
+        let newData = await helper.getStockData(req.body.symbol)
+        let newStock = await helper.createStock(newData, req.body.symbol)
+        newStock.save(function (err, stock) {
         if (err) {
           console.log(err);
         }
       });
     res.redirect('/stocks')
+    }
 })
 
 //DELETE

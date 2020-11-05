@@ -13,6 +13,7 @@ const app = express()
 const db = mongoose.connection;
 let http = require('http').Server(app);
 let io = require('socket.io')(http);
+global.io = io
 const Stock = require('./models/stock.js');
 let helper = require('./helper_functions')
 
@@ -81,10 +82,10 @@ app.use('/sessions', sessionController)
 //___________________
 
 //On the server refresh the stock items in the DB
-//functions located in tools.js
-// setInterval( ()=>{
-//     helper.refreshData();
-// }, 5000)
+// functions located in tools.js
+setInterval( ()=>{
+    helper.refreshData();
+}, 5000)
 
 // Socket Connection
 // Upon user connection emit a testEvent on an interval which retrieves latest values from DB

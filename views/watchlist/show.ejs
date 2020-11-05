@@ -1,10 +1,16 @@
 <%- include ('../partials/nav.ejs') %> 
 <h1><%= watchlist.name%></h1>
-    <form action="/watchlists/<%= watchlist._id%>/stocks" method="POST">
+    <form action="/watchlists/stocks/<%= watchlist._id%>" method="POST">
         <label for="symbol">Add New Stock</label>
         <input type="text" name="symbol" id="symbol" placeholder="Enter Ticker Symbol">
         <button>Submit</button>
+        <br>
     </form>
+    <form action="/watchlists/<%=watchlist._id%>?_method=DELETE" method="POST">
+        <label for="delete-stock">Delete This Watchlist?</label>
+        <button name="delete-stock">Delete</button>
+    </form>
+<div class="table-div">
 <table class="table">
     <tr>
         <th>
@@ -27,8 +33,10 @@
         </th>
     </tr>
     <% watchlist.stocks.forEach(stock => { %>
-        <tr class="<%= stock.symbol %>">
-            <td class="symbol"><%= stock.symbol %> </td>
+        <tr class="<%=stock.symbol%>">
+            <td class="symbol">
+                <a href="/stocks/<%=stock._id%>"><%= stock.symbol %></a>
+            </td>
             <td class="description"><%= stock.description %> </td>
             <td class="openPrice">$<%= parseFloat(stock.openPrice).toFixed(2) %> </td>
             <td class="lastPrice">$<%= parseFloat(stock.lastPrice).toFixed(2) %> </td>
@@ -49,14 +57,51 @@
         </tr>
     <% }); %> 
     </table>
-    <script>
-        document.querySelectorAll('#row-item').forEach( item =>{
-            let number = item.innerHTML
-            number = parseInt(number.slice(0,-1))
-            if(number > 0 ) {
-                item.style.backgroundColor = 'rgba(100, 215, 97)'
+</div>
+<script>
+    document.querySelectorAll('#row-item').forEach( item =>{
+        let number = item.innerHTML
+        number = parseInt(number.slice(0,-1))
+        if(number > 0 ) {
+            item.style.backgroundColor = 'rgba(100, 215, 97)'
+        } else {
+            item.style.backgroundColor = 'rgba(255, 0, 0)'
+        }
+    })
+</script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io();
+    socket.on('testEvent2', function(stocks){
+        let data = stocks.stocks
+        console.log(data);
+        // console.log(data);
+        // let tableSymbols = document.querySelectorAll('.symbol')
+        // tableSymbols.forEach(stock=>{
+        //     let symbol = stock.innerHTML;
+        //     let lastPrice = document.querySelector('.' + symbol + ' .lastPrice')
+        //     let openPrice = document.querySelector('.' + symbol + ' .openPrice')
+        //     let netChange = document.querySelector('.' + symbol + ' .netChange')
+        //     let percentChange = document.querySelector('.' + symbol + ' .percentChange')
+        //     openPrice.innerHTML = '$' + parseFloat(data[symbol].openPrice).toFixed(2)
+        //     lastPrice.innerHTML = '$' + parseFloat(data[symbol].lastPrice).toFixed(2)
+        //     netChange.innerHTML = parseFloat(data[symbol].netChange).toFixed(2)
+        // })
+        data.forEach(stock => {
+            let lastPrice = document.querySelector('.' + stock.symbol + ' .lastPrice')
+            let openPrice = document.querySelector('.' + stock.symbol + ' .openPrice')
+            let netChange = document.querySelector('.' + stock.symbol + ' .netChange')
+            let percentChange = document.querySelector('.' + stock.symbol + ' .percentChange')
+            openPrice.innerHTML = '$' + parseFloat(stock.openPrice).toFixed(2)
+            lastPrice.innerHTML = '$' + parseFloat(stock.lastPrice).toFixed(2)
+            netChange.innerHTML = parseFloat(stock.netChange).toFixed(2)
+            if(stock.openPrice != 0) {
+                let percentChangeCalc = ((stock.netChange / stock.openPrice) * 100)
+                percentChange.innerHTML = parseFloat(percentChangeCalc).toFixed(2) + '%'
             } else {
-                item.style.backgroundColor = 'rgba(255, 0, 0)'
+                percentChange.innerHTML = 'N/A'
             }
-        })
-    </script>
+            
+        });
+    });
+</script>

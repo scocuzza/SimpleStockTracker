@@ -1,14 +1,17 @@
 <%- include ('../partials/nav.ejs') %> 
 <h1><%= currentUser.username%>'s WatchLists</h1>
-<ul>
+<% if(watchlists.length === 0) { %> 
+<h2><a href="/watchlists/new">Dont have any watchlists? Go Here</a></h2>
+<% } %> 
     <% for(let i = 0; i < watchlists.length; i++) { %> 
-    <li>
-        <a href="/watchlists/<%= watchlists[i]._id %>">
-            <%= watchlists[i].name %>
-        </a>
-        <form action="/watchlists/<%=watchlists[i]._id%>?_method=DELETE" method="POST">
-            <button>Delete</button>
-        </form>
-    </li>
+    <table class="watchlist-table">
+        <tr>
+            <td>
+                <a href="/watchlists/<%= watchlists[i]._id %>">
+                    <%= watchlists[i].name %>
+                </a>
+            </td>
+        </tr>
+    </table>
     <% } %> 
 </ul>
