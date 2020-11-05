@@ -22,6 +22,9 @@ ul {
 th {
     text-decoration: underline;
 }
+th:hover {
+    cursor: pointer;
+}
 table {
     margin-top: 30px;
 }
