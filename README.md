@@ -28,6 +28,8 @@ CSS \
 HTML \
 MongoDB \
 Heroku
+TD Ameritrade Developer API
+- https://developer.tdameritrade.com/apis
 ## Models
 Users: Create | Read \
 Stocks: Create | Read | Update | Delete \
