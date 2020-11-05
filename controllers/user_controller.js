@@ -8,7 +8,6 @@ router.get('/new', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  //overwrite the user password with the hashed password, then pass that in to our database
   req.body.password = bcrypt.hashSync(
     req.body.password,
     bcrypt.genSaltSync(10)
