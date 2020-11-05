@@ -18,7 +18,6 @@ const isAuthenticated = (req, res, next) => {
 //INDEX
 router.get('/', isAuthenticated, async (req, res) => {
     let user = await User.findById(req.session.currentUser._id).populate('watchlists')
-    console.log(user);
     res.render('./watchlist/index.ejs', {
         watchlists: user.watchlists,
         currentUser: req.session.currentUser 
@@ -33,8 +32,10 @@ router.get('/:id', isAuthenticated, async (req, res)=>{
     let watchlist = await WatchList.findById(req.params.id).populate('stocks')
     setInterval( async()=>{
         let watchlist = await WatchList.findById(req.params.id).populate('stocks')
-        stocks = watchlist.stocks
-        global.io.emit('testEvent2', {stocks})
+        if (watchlist.stocks != null) {
+            stocks = watchlist.stocks
+            global.io.emit('testEvent2', {stocks})
+        }
     },5000)
     res.render('./watchlist/show.ejs', {watchlist, currentUser: req.session.currentUser })
 })
@@ -64,8 +65,8 @@ router.get('/:watchlistid/edit', isAuthenticated, async (req, res)=>{
 router.post('/', isAuthenticated, async (req, res)=>{
     let watchlist = await WatchList.create(req.body)
     let user = await User.findById(req.session.currentUser._id)
-    user.watchlists.push(watchlist)
-    user.save(function (err, watchlist) {
+    await user.watchlists.push(watchlist)
+    await user.save(function (err, watchlist) {
         if (err) {
             console.log(err);
         } else {
@@ -113,7 +114,7 @@ router.delete('/:watchlistid/stocks/:stockid', isAuthenticated, async (req, res)
 //DELETE
 router.delete('/:id', isAuthenticated, async (req, res)=> {
     await WatchList.findByIdAndDelete(req.params.id)
-    res.redirect('/watchlists/'+req.params.id)
+    res.redirect('/watchlists/')
 })
 
 //UPDATE ROUTES
