@@ -87,6 +87,9 @@ function sortTableNum(n) {
         y = rows[i + 1].getElementsByTagName("td")[n].innerHTML;
         itemx = x.slice(0,-1)
         itemy = y.slice(0,-1)
+        itemx = parseFloat(itemx)
+        itemy = parseFloat(itemy)
+        console.log(itemx + ' ' + itemy);
         if (dir == "asc") {
           if (itemx > itemy) {
             shouldSwitch = true;
