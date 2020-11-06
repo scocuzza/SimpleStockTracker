@@ -89,7 +89,6 @@ function sortTableNum(n) {
         itemy = y.slice(0,-1)
         itemx = parseFloat(itemx)
         itemy = parseFloat(itemy)
-        console.log(itemx + ' ' + itemy);
         if (dir == "asc") {
           if (itemx > itemy) {
             shouldSwitch = true;
