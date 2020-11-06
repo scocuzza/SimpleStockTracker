@@ -42,6 +42,7 @@ Stocks:
 | create | /stocks          | POST      | Create new stock       |
 | update | /stocks/:id      | PUT       | Edit and Update stock  |
 | delete | /stocks/:id      | DELETE    | Delete a Stock         |
+
 Watchlists:
 | name   | path                 | http verb | purpose                      |
 |--------|----------------------|-----------|------------------------------|
@@ -52,8 +53,9 @@ Watchlists:
 | create | /watchlists/         | POST      | Create new watchlist         |
 | update | /watchlists/:id      | PUT       | Edit and Update watchlist    |
 | delete | /watchlists/:id      | DELETE    | Delete a Watchlist           |
-Stocks within Watchlists
 
+
+Stocks within Watchlists
 Relationships \
 User -> Many Watchlists -> Many Stocks
 ## User Stories
