@@ -32,6 +32,8 @@ TD Ameritrade Developer API
 - https://developer.tdameritrade.com/apis
 ## Models
 Users: Create | Read \
+Sessions: Create | Read \
+
 Stocks:
 | name   | path             | http verb | purpose                |
 |--------|------------------|-----------|------------------------|
@@ -54,8 +56,6 @@ Watchlists:
 | update | /watchlists/:id      | PUT       | Edit and Update watchlist    |
 | delete | /watchlists/:id      | DELETE    | Delete a Watchlist           |
 
-
-Stocks within Watchlists
 Relationships \
 User -> Many Watchlists -> Many Stocks
 ## User Stories
