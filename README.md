@@ -32,8 +32,28 @@ TD Ameritrade Developer API
 - https://developer.tdameritrade.com/apis
 ## Models
 Users: Create | Read \
-Stocks: Create | Read | Update | Delete \
-Watchlists: Create | Read | Update | Delete \
+Stocks:
+| name   | path             | http verb | purpose                |
+|--------|------------------|-----------|------------------------|
+| index  | /stocks          | GET       | Show list of stocks    |
+| new    | /stocks/new      | GET       | Show new stock form    |
+| show   | /stocks/:id      | GET       | Show info on one stock |
+| edit   | /stocks/:id/edit | GET       | Show stock edit form   |
+| create | /stocks          | POST      | Create new stock       |
+| update | /stocks/:id      | PUT       | Edit and Update stock  |
+| delete | /stocks/:id      | DELETE    | Delete a Stock         |
+Watchlists:
+| name   | path                 | http verb | purpose                      |
+|--------|----------------------|-----------|------------------------------|
+| index  | /watchlists          | GET       | Show your list of watchlists |
+| new    | /watchlists/new      | GET       | Show new watchlist form      |
+| show   | /watchlists/:id      | GET       | Show stocks in one watchlist |
+| edit   | /watchlists/:id/edit | GET       | Show watchlist edit form     |
+| create | /watchlists/         | POST      | Create new watchlist         |
+| update | /watchlists/:id      | PUT       | Edit and Update watchlist    |
+| delete | /watchlists/:id      | DELETE    | Delete a Watchlist           |
+Stocks within Watchlists
+
 Relationships \
 User -> Many Watchlists -> Many Stocks
 ## User Stories
