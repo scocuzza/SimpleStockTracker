@@ -32,7 +32,7 @@ TD Ameritrade Developer API
 - https://developer.tdameritrade.com/apis
 ## Models
 Users: Create | Read \
-Sessions: Create | Read \
+Sessions: Create | Read 
 
 Stocks:
 | name   | path             | http verb | purpose                |
